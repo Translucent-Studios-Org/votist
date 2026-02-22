@@ -1,6 +1,6 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
-import { OPENROUTER_API_KEY } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 const MAX_MESSAGES = 20;
 
@@ -54,7 +54,7 @@ export const POST: RequestHandler = async (event) => {
 	const openRouterResponse = await fetch('https://openrouter.ai/api/v1/chat/completions', {
 		method: 'POST',
 		headers: {
-			Authorization: `Bearer ${OPENROUTER_API_KEY}`,
+			Authorization: `Bearer ${env.OPENROUTER_API_KEY}`,
 			'Content-Type': 'application/json',
 			'HTTP-Referer': 'https://votist.com',
 			'X-Title': 'Votist Assistant'
