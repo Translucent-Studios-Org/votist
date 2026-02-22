@@ -1,13 +1,6 @@
 <script lang="ts">
 	import type { PostData } from '$lib/types';
-	import {
-		MoreHorizontal,
-		ArrowUp,
-		MessageCircle,
-		Share,
-		BarChart3,
-		Check
-	} from 'lucide-svelte';
+	import { MoreHorizontal, ArrowUp, MessageCircle, Share, BarChart3, Check } from 'lucide-svelte';
 
 	export let post: PostData;
 	export const onLike: () => void = () => {};
@@ -17,6 +10,7 @@
 	export let quizGateBlocked: boolean = false;
 	export let quizGateMessage: string = '';
 	export let readOnly: boolean = false;
+	export let hideAuthor: boolean = false;
 
 	let revertVote: {
 		prevUserVote: string | undefined;
@@ -130,7 +124,7 @@
 					post.poll.totalVotes = revertVote.prevTotalVotes;
 					post.poll.options = revertVote.prevOptions;
 				}
-				quizRequirementMessage = data.message || 'You need to complete a quiz to vote.';
+				quizRequirementMessage = data.message || 'You need to complete a knowledge check to vote.';
 				requiredDifficultyLevel = data.requiredDifficulty || '';
 				showQuizRequirementModal = true;
 			} else {
@@ -159,48 +153,50 @@
 
 	function redirectToQuizzes() {
 		showQuizRequirementModal = false;
-		window.location.href = '/san-rafael';
+		window.location.href = '/san-rafael/quiz';
 	}
 </script>
 
 <div>
-	<div class="mb-3 flex items-start gap-3 md:mb-4 md:gap-4">
-		<div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 md:h-12 md:w-12">
-			{#if post.author.avatar}
-				<img src={post.author.avatar} alt={post.author.name} class="h-10 w-10 rounded-full md:h-12 md:w-12" />
-			{:else}
-				<span class="text-xs font-medium text-gray-600 md:text-sm">
-					{post.author.name.slice(0, 2).toUpperCase()}
-				</span>
-			{/if}
-		</div>
-
-		<div class="min-w-0 flex-1">
-			<div class="mb-1 flex flex-wrap items-center gap-1 md:gap-2">
-				<h3 class="text-sm font-medium md:text-base">{post.author.name}</h3>
-				<span class="text-xs text-gray-500 md:text-sm">@{post.author.username}</span>
-				{#if post.author.isVerified}
-					<div class="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500">
-						<div class="h-2 w-2 rounded-full bg-white"></div>
-					</div>
+	<!-- {#if !hideAuthor}
+		<div class="mb-3 flex items-start gap-3 md:mb-4 md:gap-4">
+			<div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gray-200 md:h-12 md:w-12">
+				{#if post.author.avatar}
+					<img src={post.author.avatar} alt={post.author.name} class="h-10 w-10 rounded-full md:h-12 md:w-12" />
+				{:else}
+					<span class="text-xs font-medium text-gray-600 md:text-sm">
+						{post.author.name.slice(0, 2).toUpperCase()}
+					</span>
 				{/if}
 			</div>
-			<div class="flex items-center gap-1 text-xs text-gray-500 md:gap-2 md:text-sm">
-				<span>{formatLocaleTime(post.timestamp)}</span>
-				<span>&middot;</span>
-				<span class="rounded bg-gray-100 px-1.5 py-0.5 text-xs">{post.category}</span>
-			</div>
-		</div>
 
-		<button class="flex h-8 w-8 items-center justify-center rounded p-0 hover:bg-gray-100">
-			<MoreHorizontal class="h-4 w-4" />
-		</button>
-	</div>
+			<div class="min-w-0 flex-1">
+				<div class="mb-1 flex flex-wrap items-center gap-1 md:gap-2">
+					<h3 class="text-sm font-medium md:text-base">{post.author.name}</h3>
+					<span class="text-xs text-gray-500 md:text-sm">@{post.author.username}</span>
+					{#if post.author.isVerified}
+						<div class="flex h-4 w-4 items-center justify-center rounded-full bg-blue-500">
+							<div class="h-2 w-2 rounded-full bg-white"></div>
+						</div>
+					{/if}
+				</div>
+				<div class="flex items-center gap-1 text-xs text-gray-500 md:gap-2 md:text-sm">
+					<span>{formatLocaleTime(post.timestamp)}</span>
+					<span>&middot;</span>
+					<span class="rounded bg-gray-100 px-1.5 py-0.5 text-xs">{post.category}</span>
+				</div>
+			</div>
+
+			<button class="flex h-8 w-8 items-center justify-center rounded p-0 hover:bg-gray-100">
+				<MoreHorizontal class="h-4 w-4" />
+			</button>
+		</div>
+	{/if} -->
 
 	<div class="mb-3 md:mb-4">
 		<h1 class="mb-2 text-lg font-semibold md:mb-3 md:text-xl">{post.title}</h1>
 		<div class="prose prose-sm max-w-none">
-			<p class="whitespace-pre-wrap text-sm text-gray-700 md:text-base">{post.content}</p>
+			<p class="text-sm whitespace-pre-wrap text-gray-700 md:text-base">{post.content}</p>
 		</div>
 	</div>
 
@@ -221,11 +217,21 @@
 				<div class="space-y-3">
 					{#if quizGateBlocked && !readOnly}
 						<div class="mb-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
-							<div class="flex items-center gap-2 mb-2">
-								<svg class="h-5 w-5 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+							<div class="mb-2 flex items-center gap-2">
+								<svg
+									class="h-5 w-5 text-amber-600"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+									/>
 								</svg>
-								<span class="font-medium text-amber-800">Quiz Completion Required</span>
+								<span class="font-medium text-amber-800">Knowledge Check Required</span>
 							</div>
 							<p class="text-sm text-amber-700">{quizGateMessage}</p>
 							<button
@@ -233,7 +239,7 @@
 								class="mt-3 rounded-lg bg-[#167b9b] px-4 py-2 text-sm font-medium text-white hover:bg-[#125a74]"
 								on:click={redirectToQuizzes}
 							>
-								Complete Quizzes
+								Complete Knowledge Check
 							</button>
 						</div>
 					{/if}
@@ -248,7 +254,8 @@
 							<button
 								type="button"
 								on:click={() => handleVoteClick(option.id)}
-								class="h-auto w-full justify-start overflow-hidden rounded-md border p-0 transition-all duration-200 {isPollEnded || readOnly
+								class="h-auto w-full justify-start overflow-hidden rounded-md border p-0 transition-all duration-200 {isPollEnded ||
+								readOnly
 									? 'cursor-default'
 									: canVote
 										? 'cursor-pointer hover:bg-gray-50'
@@ -372,7 +379,7 @@
 <!-- Quiz Requirement Modal -->
 {#if showQuizRequirementModal}
 	<div
-		class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+		class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black"
 		on:click={() => (showQuizRequirementModal = false)}
 		on:keydown={(e) => e.key === 'Escape' && (showQuizRequirementModal = false)}
 		role="button"
@@ -387,7 +394,7 @@
 			tabindex="-1"
 		>
 			<div class="mb-4">
-				<h3 class="mb-2 text-xl font-bold text-gray-900">Quiz Required to Vote</h3>
+				<h3 class="mb-2 text-xl font-bold text-gray-900">Knowledge Check Required to Vote</h3>
 				<p class="text-gray-600">
 					{quizRequirementMessage}
 				</p>
@@ -396,7 +403,7 @@
 			<div class="mb-6 rounded-lg bg-blue-50 p-4">
 				<p class="text-sm text-blue-800">
 					Complete at least one <strong>{requiredDifficultyLevel}</strong> level quiz to participate
-					in this poll. Quizzes help ensure informed participation in our community discussions.
+					in this poll. Knowledge checks help ensure informed participation in our community discussions.
 				</p>
 			</div>
 
@@ -413,7 +420,7 @@
 					class="flex-1 rounded-lg bg-[#167b9b] px-4 py-2 font-medium text-white hover:bg-[#125a74]"
 					on:click={redirectToQuizzes}
 				>
-					Take Quiz
+					Take Knowledge Check
 				</button>
 			</div>
 		</div>

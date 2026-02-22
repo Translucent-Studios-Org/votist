@@ -6,24 +6,31 @@
 	import { ClerkProvider, SignedIn, SignedOut } from 'svelte-clerk';
 	import type { LayoutData } from './$types';
 	import Footer from '$lib/components/Footer.svelte';
+	import VotistAssistant from '$lib/components/assistant/VotistAssistant.svelte';
 
 	// Import all navigation icons
 	import homeOutline from '$lib/assets/icons/home-outline.png';
 	import homeFilled from '$lib/assets/icons/home-filled.png';
 	import researchOutline from '$lib/assets/icons/research-outline.png';
 	import researchFilled from '$lib/assets/icons/research-filled.png';
-	import discussOutline from '$lib/assets/icons/discuss-outline.png';
-	import discussFilled from '$lib/assets/icons/discuss-filled.png';
 	import voteOutline from '$lib/assets/icons/vote-outline.png';
 	import voteFilled from '$lib/assets/icons/vote-filled.png';
-	import levelOutline from '$lib/assets/icons/level-outline.png';
-	import levelFilled from '$lib/assets/icons/level-filled.png';
 	import profileOutline from '$lib/assets/icons/profile-outline.png';
 	import profileFilled from '$lib/assets/icons/profile-filled.png';
 	import settingsOutline from '$lib/assets/icons/settings-outline.png';
 	import settingsFilled from '$lib/assets/icons/settings-filled.png';
 
-	const navItems = [
+	interface NavItem {
+		name: string;
+		path: string;
+		icon: string;
+		iconOutline: string;
+		iconFilled: string;
+		hasSubItems?: boolean;
+		notification?: number;
+	}
+
+	const navItems: NavItem[] = [
 		{
 			name: 'Home',
 			path: '/',
@@ -33,43 +40,29 @@
 		},
 		{
 			name: 'Assembly',
-			path: null,
-			icon: null,
-			iconOutline: null,
-			iconFilled: null,
-			isSubsection: true,
-			subsections: [
-				{
-					name: 'San Rafael',
-					path: '/san-rafael',
-					subtitle: 'Housing and the Future'
-				}
-			]
+			path: '/san-rafael',
+			icon: 'assembly',
+			iconOutline: researchOutline,
+			iconFilled: researchFilled,
+			hasSubItems: true
 		},
 		{
-			name: 'Research',
-			path: '/research',
-			icon: 'research',
+			name: 'Knowledge Check',
+			path: '/san-rafael/quiz/cmliugj750007pepgmpphvune',
+			icon: 'knowledge',
 			iconOutline: researchOutline,
 			iconFilled: researchFilled
 		},
 		{
-			name: 'Discuss & Vote',
+			name: 'Vote and Discuss',
 			path: '/vote',
 			icon: 'vote',
 			iconOutline: voteOutline,
 			iconFilled: voteFilled
-		},
-		{
-			name: 'Level Up',
-			path: '/san-rafael',
-			icon: 'level',
-			iconOutline: levelOutline,
-			iconFilled: levelFilled
 		}
 	];
 
-	const bottomNavItems = [
+	const bottomNavItems: NavItem[] = [
 		{
 			name: 'Profile',
 			path: '/profile',
@@ -248,27 +241,20 @@
 					<!-- Navigation -->
 					<nav class="flex-1 space-y-1 {collapsed ? 'p-2' : 'p-4'}">
 						{#each navItems as item}
-							{#if item.isSubsection}
+							{#if item.hasSubItems}
+								<!-- Assembly: section label (no icon) + always-highlighted sub-item -->
 								{#if !collapsed}
-									<!-- Assembly Section (hidden when collapsed) -->
-									<div class="mb-2">
-										<p class="px-3 py-1 text-sm text-gray-400">Assembly</p>
-										{#each item.subsections as subsection}
-											<a
-												href={subsection.path}
-												class="flex flex-col px-3 py-2 hover:bg-gray-50 {page.url
-													.pathname === subsection.path
-													? 'bg-gray-50 font-bold text-teal-600'
-													: 'text-gray-700'}"
-											>
-												<span class="text-lg font-bold text-teal-500"
-													>{subsection.name}</span
-												>
-												<span class="text-sm text-teal-500"
-													>{subsection.subtitle}</span
-												>
-											</a>
-										{/each}
+									<div class="mb-1 mt-2">
+										<p class="px-3 py-1 text-xs font-medium tracking-wide uppercase text-gray-400">
+											{item.name}
+										</p>
+										<a
+											href="/san-rafael"
+											class="flex flex-col rounded-md px-3 py-2 bg-gray-50 hover:bg-gray-100"
+										>
+											<span class="text-sm font-bold text-[#155E75]">San Rafael, CA</span>
+											<span class="text-xs text-[#167B9B]">Housing and the Future</span>
+										</a>
 									</div>
 								{/if}
 							{:else}
@@ -276,13 +262,15 @@
 									href={item.path}
 									class="flex items-center rounded-lg hover:bg-gray-50 {collapsed
 										? 'justify-center p-3'
-										: 'p-3'} {page.url.pathname === item.path
-										? 'bg-gray-50 font-bold text-teal-600'
+										: 'p-3'} {page.url.pathname === item.path ||
+									page.url.pathname.startsWith(item.path + '/')
+										? 'bg-gray-50 font-bold text-[#155E75]'
 										: 'text-gray-700'}"
 									title={collapsed ? item.name : undefined}
 								>
 									<img
-										src={page.url.pathname === item.path
+										src={page.url.pathname === item.path ||
+										page.url.pathname.startsWith(item.path + '/')
 											? item.iconFilled
 											: item.iconOutline}
 										alt={item.name}
@@ -396,33 +384,29 @@
 						<!-- Nav items grid -->
 						<nav class="grid grid-cols-4 gap-2">
 							{#each navItems as item}
-								{#if item.isSubsection}
-									{#each item.subsections as subsection}
-										<a
-											href={subsection.path}
-											class="flex flex-col items-center gap-1 rounded-xl p-3 {page.url
-												.pathname === subsection.path
-												? 'bg-teal-50 text-teal-600'
-												: 'text-gray-600 hover:bg-gray-50'}"
-											onclick={() => (mobileNavOpen = false)}
-										>
-											<span class="text-lg font-bold text-teal-500">SR</span>
-											<span class="text-center text-[10px] leading-tight"
-												>{subsection.name}</span
-											>
-										</a>
-									{/each}
+								{#if item.hasSubItems}
+									<!-- Assembly: show as teal "SR" badge on mobile -->
+									<a
+										href="/san-rafael"
+										class="flex flex-col items-center gap-1 rounded-xl p-3 bg-teal-50 text-[#155E75]"
+										onclick={() => (mobileNavOpen = false)}
+									>
+										<span class="text-lg font-bold text-[#155E75]">SR</span>
+										<span class="text-center text-[10px] leading-tight">San Rafael</span>
+									</a>
 								{:else}
 									<a
 										href={item.path}
 										class="relative flex flex-col items-center gap-1 rounded-xl p-3 {page
-											.url.pathname === item.path
-											? 'bg-teal-50 text-teal-600'
+											.url.pathname === item.path ||
+										page.url.pathname.startsWith(item.path + '/')
+											? 'bg-teal-50 text-[#155E75]'
 											: 'text-gray-600 hover:bg-gray-50'}"
 										onclick={() => (mobileNavOpen = false)}
 									>
 										<img
-											src={page.url.pathname === item.path
+											src={page.url.pathname === item.path ||
+											page.url.pathname.startsWith(item.path + '/')
 												? item.iconFilled
 												: item.iconOutline}
 											alt={item.name}
@@ -518,6 +502,8 @@
 				</div>
 				<Footer />
 			</main>
+
+			<VotistAssistant />
 		</div>
 	</SignedIn>
 

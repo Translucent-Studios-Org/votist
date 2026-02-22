@@ -15,6 +15,8 @@ export const load = (async ({ locals }) => {
 			email: true,
 			firstName: true,
 			lastName: true,
+			displayName: true,
+			useDisplayName: true,
 			avatarUrl: true,
 			role: true,
 			isResident: true
@@ -38,6 +40,8 @@ export const actions: Actions = {
 		const formData = await request.formData();
 		const firstName = formData.get('firstName') as string | null;
 		const lastName = formData.get('lastName') as string | null;
+		const displayName = formData.get('displayName') as string | null;
+		const useDisplayName = formData.get('useDisplayName') === 'on';
 		const avatarUrl = formData.get('avatarUrl') as string | null;
 		const isResident = formData.get('isResident') === 'on';
 
@@ -46,6 +50,9 @@ export const actions: Actions = {
 		}
 		if (lastName && lastName.length > 100) {
 			return fail(400, { error: 'Last name is too long' });
+		}
+		if (displayName && displayName.length > 100) {
+			return fail(400, { error: 'Display name is too long' });
 		}
 		if (avatarUrl && avatarUrl.length > 500) {
 			return fail(400, { error: 'Avatar URL is too long' });
@@ -57,6 +64,8 @@ export const actions: Actions = {
 				data: {
 					firstName: firstName?.trim() || null,
 					lastName: lastName?.trim() || null,
+					displayName: displayName?.trim() || null,
+					useDisplayName,
 					avatarUrl: avatarUrl?.trim() || null,
 					isResident
 				}

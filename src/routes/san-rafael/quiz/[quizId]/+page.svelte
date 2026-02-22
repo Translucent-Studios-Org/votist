@@ -10,9 +10,24 @@
 
 	interface PageData {
 		quiz: Quiz;
+		alreadyCompleted: boolean;
 	}
 
 	let { data }: { data: PageData } = $props();
+
+	let showCompletedModal = $state(false);
+
+	// If user already completed this quiz, show modal
+	$effect(() => {
+		if (data.alreadyCompleted) {
+			showCompletedModal = true;
+		}
+	});
+
+	function goToVoteAndDiscuss() {
+		showCompletedModal = false;
+		goto('/vote');
+	}
 
 	let currentQuestionIndex = $state(0);
 	let selectedAnswer = $state<string | null>(null);
@@ -140,6 +155,30 @@
 	});
 </script>
 
+<!-- Already completed modal -->
+{#if showCompletedModal}
+	<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+		<div class="w-full max-w-md rounded-2xl bg-white p-6 text-center shadow-xl md:p-8">
+			<div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+				<svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+				</svg>
+			</div>
+			<h2 class="mb-2 text-xl font-bold text-gray-900 md:text-2xl">Knowledge Check Passed!</h2>
+			<p class="mb-6 text-base text-gray-600">
+				You have already passed the knowledge check. Feel free to vote and discuss!
+			</p>
+			<button
+				type="button"
+				class="btn btn-primary btn-md w-full px-8 text-base font-bold text-white md:btn-lg"
+				onclick={goToVoteAndDiscuss}
+			>
+				Go to Vote & Discuss
+			</button>
+		</div>
+	</div>
+{/if}
+
 <div class="bg-base-100 min-h-screen px-4 py-6 md:py-8">
 	<div class="mx-auto w-full max-w-3xl">
 		<div class="flex flex-col items-center justify-center">
@@ -260,7 +299,7 @@
 								onclick={nextQuestion}
 								type="button"
 							>
-								{isLastQuestion ? 'Complete Quiz' : 'Continue'}
+								{isLastQuestion ? 'Complete Knowledge Check' : 'Continue'}
 							</button>
 						{/if}
 					</div>

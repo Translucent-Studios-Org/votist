@@ -204,14 +204,14 @@
 										d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
 									/>
 								</svg>
-								<span class="font-medium text-amber-800">Quiz Required to Comment</span>
+								<span class="font-medium text-amber-800">Knowledge Check Required to Comment</span>
 							</div>
 							<p class="text-sm text-amber-700">{quizGateMessage}</p>
 							<a
-								href="/san-rafael"
+								href="/san-rafael/quiz"
 								class="mt-3 inline-block rounded-lg bg-[#167b9b] px-4 py-2 text-sm font-medium text-white hover:bg-[#125a74]"
 							>
-								Complete Quizzes
+								Complete Knowledge Check
 							</a>
 						</div>
 					{:else}

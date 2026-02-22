@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { PollFeedData } from '$lib/types';
 	import DiscussionForum from './DiscussionForum.svelte';
+	import voteIcon from '$lib/assets/icons/vote-filled.png';
 
 	export let polls: PollFeedData[];
 	export let isAuthenticated: boolean;
@@ -37,9 +38,20 @@
 
 <div class="mx-auto max-w-4xl space-y-4 px-3 py-4 md:space-y-6 md:px-4">
 	<div class="mb-4 md:mb-8">
-		<h1 class="mb-2 text-2xl font-bold md:text-3xl">Community Polls</h1>
-		<p class="text-muted-foreground text-sm text-gray-600 md:text-base">
-			Engage with the developer community by voting on polls and joining discussions
+		<div class="mb-3 flex items-center gap-3">
+			<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#167B9B]">
+				<img src={voteIcon} alt="Vote" class="h-5 w-5 invert" />
+			</div>
+			<h1 class="text-2xl font-bold text-gray-900 md:text-3xl">Vote and Discuss</h1>
+		</div>
+		<span
+			class="bg-votist-gold mb-3 inline-block rounded-full px-3 py-1 text-sm font-medium text-white"
+		>
+			Step 3 of 3
+		</span>
+		<p class="mt-3 text-base leading-relaxed text-gray-700 md:text-lg">
+			This discussion is grounded in shared materials. Please reference facts and articulate your
+			reasoning clearly.
 		</p>
 	</div>
 

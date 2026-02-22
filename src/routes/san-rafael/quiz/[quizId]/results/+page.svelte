@@ -49,7 +49,7 @@
 
 	async function handleBackToRoadmap() {
 		await invalidateAll();
-		goto('/san-rafael/quizzes'); // Go to quiz roadmap page
+		goto('/san-rafael/quiz'); // Go to knowledge check page
 	}
 
 	async function handleRetakeQuiz() {
@@ -136,7 +136,7 @@
 							onclick={handleNextQuiz}
 							class="btn btn-primary btn-md px-6 text-lg font-medium shadow md:btn-lg md:px-10 md:text-4xl"
 						>
-							Next Quiz
+							Next Knowledge Check
 						</button>
 					{/if}
 				</div>
@@ -154,7 +154,7 @@
 					class="btn btn-outline border-cyan-600 px-6 text-base text-cyan-600 hover:bg-cyan-600 hover:text-white md:px-8 md:text-lg"
 					onclick={handleBackToRoadmap}
 				>
-					Back to Quiz Roadmap
+					Back to Knowledge Check
 				</button>
 			</div>
 		</div>

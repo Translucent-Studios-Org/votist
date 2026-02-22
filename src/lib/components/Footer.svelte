@@ -1,27 +1,19 @@
-<script>
-	import logoHeader from '$lib/assets/logo/logo-header.png';
-</script>
+<footer class="mt-auto w-full bg-gray-100 px-4 py-8 sm:px-6 lg:px-8">
+	<div class="mx-auto max-w-4xl rounded-2xl bg-white px-8 py-10 sm:px-12 sm:py-14">
+		<nav class="mb-8 flex flex-wrap gap-x-10 gap-y-3">
+			<a href="/about" class="text-base text-gray-900 hover:underline">About Votist</a>
+			<a href="/tos" class="text-base text-gray-900 hover:underline">Terms of Service</a>
+			<a href="/cookies" class="text-base text-gray-900 hover:underline">Cookie Policy</a>
+			<a href="/privacy" class="text-base text-gray-900 hover:underline">Privacy Policy</a>
+			<a href="/contact" class="text-base text-gray-900 hover:underline">Contact</a>
+		</nav>
 
-<footer class="mt-auto w-full border-t border-gray-200 bg-white">
-	<div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-		<div class="flex w-full flex-col items-center justify-between md:flex-row">
-			<!-- Left: Logo -->
-			<div
-				class="mb-4 flex w-full flex-shrink-0 items-center justify-center md:mb-0 md:w-auto md:justify-start"
-			>
-				<img src={logoHeader} alt="Votist logo" class="h-8 w-auto" />
-			</div>
-			<!-- Center: Links -->
-			<div class="mb-4 flex w-full flex-wrap justify-center gap-6 md:mb-0 md:w-auto">
-				<a href="/tos" class="text-sm text-gray-600 hover:text-gray-900">ToS</a>
-				<a href="/privacy" class="text-sm text-gray-600 hover:text-gray-900">Privacy</a>
-				<a href="/about" class="text-sm text-gray-600 hover:text-gray-900">What is votist</a>
-				<a href="/feedback" class="text-sm text-gray-600 hover:text-gray-900">Your Feedback</a>
-			</div>
-			<!-- Right: Support -->
-			<div class="flex w-full flex-shrink-0 items-center justify-center md:w-auto md:justify-end">
-				<a href="/support" class="text-sm text-gray-600 hover:text-gray-900">Support</a>
-			</div>
+		<div class="space-y-1 text-base text-gray-900">
+			<p>
+				Votist is an independent project and is not affiliated with the City of San Rafael or any
+				government agency.
+			</p>
+			<p>&copy; 2026 Translucent Studios LLC. All rights reserved.</p>
 		</div>
 	</div>
 </footer>

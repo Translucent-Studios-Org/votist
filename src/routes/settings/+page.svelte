@@ -6,6 +6,8 @@
 
 	let firstName = $state(data.settings.firstName || '');
 	let lastName = $state(data.settings.lastName || '');
+	let displayName = $state(data.settings.displayName || '');
+	let useDisplayName = $state(data.settings.useDisplayName);
 	let avatarUrl = $state(data.settings.avatarUrl || '');
 	let isResident = $state(data.settings.isResident);
 	let saving = $state(false);
@@ -99,6 +101,39 @@
 							bind:value={lastName}
 						/>
 					</div>
+				</div>
+
+				<!-- Display Name Toggle & Field -->
+				<div class="form-control">
+					<label class="label cursor-pointer justify-start gap-3">
+						<input
+							type="checkbox"
+							name="useDisplayName"
+							class="toggle toggle-primary"
+							bind:checked={useDisplayName}
+						/>
+						<span class="label-text font-medium">Use display name</span>
+					</label>
+					{#if useDisplayName}
+						<div class="mt-2">
+							<label for="displayName" class="label">
+								<span class="label-text font-medium">Display Name</span>
+							</label>
+							<input
+								id="displayName"
+								name="displayName"
+								type="text"
+								class="input input-bordered w-full"
+								placeholder="Your public display name"
+								bind:value={displayName}
+							/>
+							<label for="displayName" class="label">
+								<span class="label-text-alt text-gray-400"
+									>This name will be shown instead of your first/last name</span
+								>
+							</label>
+						</div>
+					{/if}
 				</div>
 
 				<!-- Email (read-only) -->

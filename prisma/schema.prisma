@@ -105,12 +105,14 @@ model User {
   clerkId      String?        @unique // Retained during migration, removed in Phase 8
   email        String?        @unique
   passwordHash String?
-  firstName    String?
-  lastName     String?
-  avatarUrl    String?
-  role         String         @default("visitor")
-  isAdmin      Boolean        @default(false)
-  isResident   Boolean        @default(false)
+  firstName      String?
+  lastName       String?
+  displayName    String?
+  useDisplayName Boolean        @default(false)
+  avatarUrl      String?
+  role           String         @default("visitor")
+  isAdmin        Boolean        @default(false)
+  isResident     Boolean        @default(false)
   userProgress UserProgress[]
   posts        Post[]
   comments     Comment[]

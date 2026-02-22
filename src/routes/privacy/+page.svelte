@@ -12,7 +12,7 @@
 		</section>
 		<section class="space-y-3">
 			<h2 class="text-lg font-semibold text-gray-800">3. Data Sharing</h2>
-			<p>We do not sell your personal information. We may share anonymized, aggregated data for civic research purposes. Your voting choices and quiz results are kept confidential.</p>
+			<p>We do not sell your personal information. We may share anonymized, aggregated data for civic research purposes. Your voting choices and knowledge check results are kept confidential.</p>
 		</section>
 		<section class="space-y-3">
 			<h2 class="text-lg font-semibold text-gray-800">4. Data Security</h2>

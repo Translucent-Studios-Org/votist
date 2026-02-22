@@ -7,14 +7,18 @@ import type { PostData, CommentData, Poll } from '$lib/types';
 function transformAuthor(author: {
 	firstName: string | null;
 	lastName: string | null;
+	displayName: string | null;
+	useDisplayName: boolean;
 	avatarUrl: string | null;
 	email: string | null;
 	isAdmin: boolean;
 }) {
 	const name =
-		author.firstName && author.lastName
-			? `${author.firstName} ${author.lastName}`
-			: author.firstName || author.lastName || 'Anonymous';
+		author.useDisplayName && author.displayName
+			? author.displayName
+			: author.firstName && author.lastName
+				? `${author.firstName} ${author.lastName}`
+				: author.firstName || author.lastName || 'Anonymous';
 	return {
 		name,
 		avatar: author.avatarUrl || '',
@@ -26,6 +30,8 @@ function transformAuthor(author: {
 const authorSelect = {
 	firstName: true,
 	lastName: true,
+	displayName: true,
+	useDisplayName: true,
 	avatarUrl: true,
 	email: true,
 	isAdmin: true

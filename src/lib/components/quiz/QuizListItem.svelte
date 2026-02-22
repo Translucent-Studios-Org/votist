@@ -22,7 +22,7 @@
 </script>
 
 <div class="relative flex items-center gap-6">
-	<div class="tooltip tooltip-top tooltip-primary" class:tooltip={isNext} data-tip="Next quiz">
+	<div class="tooltip tooltip-top tooltip-primary" class:tooltip={isNext} data-tip="Next knowledge check">
 		<button
 			type="button"
 			on:click={canTakeQuiz ? onClick : undefined}
@@ -30,8 +30,8 @@
 			aria-label={status === 'completed'
 				? `View results for ${quiz.title}`
 				: status === 'available'
-					? `Take quiz: ${quiz.title}`
-					: `Quiz locked: ${quiz.title}`}
+					? `Start: ${quiz.title}`
+					: `Locked: ${quiz.title}`}
 			class="transition-colors {canTakeQuiz
 				? 'cursor-pointer hover:opacity-80'
 				: 'cursor-not-allowed'}"

@@ -38,7 +38,13 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
 	return user;
 }
 
-export function formatDisplayName(firstName: string | null, lastName: string | null): string {
+export function formatDisplayName(
+	firstName: string | null,
+	lastName: string | null,
+	displayName?: string | null,
+	useDisplayName?: boolean
+): string {
+	if (useDisplayName && displayName) return displayName;
 	if (!firstName && !lastName) return 'Anonymous';
 	if (!lastName) return firstName!;
 	if (!firstName) return lastName;
@@ -51,6 +57,8 @@ export async function transformUserData(userId: string): Promise<TransformUserDa
 		select: {
 			firstName: true,
 			lastName: true,
+			displayName: true,
+			useDisplayName: true,
 			avatarUrl: true,
 			email: true
 		}
@@ -66,7 +74,7 @@ export async function transformUserData(userId: string): Promise<TransformUserDa
 	}
 
 	return {
-		name: formatDisplayName(user.firstName, user.lastName),
+		name: formatDisplayName(user.firstName, user.lastName, user.displayName, user.useDisplayName),
 		avatar: user.avatarUrl,
 		username: user.email?.split('@')[0] ?? 'user',
 		isVerified: true

@@ -10,7 +10,15 @@ export const load: ServerLoad = async (event) => {
 		if (!user) {
 			throw redirect(302, '/sign-in');
 		}
-		const userId = user.id;
+
+		const dbUser = await prisma.user.findUnique({
+			where: { clerkId: user.id },
+			select: { id: true }
+		});
+		if (!dbUser) {
+			throw redirect(302, '/sign-in');
+		}
+		const userId = dbUser.id;
 
 		await initializeUserProgress(userId);
 
