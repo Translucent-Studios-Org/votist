@@ -161,6 +161,7 @@ export const PUT: RequestHandler = async (event) => {
 			data: {
 				title: data.title,
 				content: data.content,
+				imageUrl: data.imageUrl || null,
 				category: data.category,
 				tags: data.tags || [],
 				showTitle: data.showTitle ?? true,

@@ -89,6 +89,7 @@ export interface PostData {
 	showContent: boolean;
 	tags: string[];
 	poll?: Poll;
+	imageUrl?: string;
 }
 
 // Admin Post interface for management
@@ -107,6 +108,7 @@ export interface Post {
 	isBookmarked: boolean;
 	showTitle: boolean;
 	showContent: boolean;
+	imageUrl?: string;
 	createdAt: Date;
 	updatedAt: Date;
 }

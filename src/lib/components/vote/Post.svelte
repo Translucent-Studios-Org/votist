@@ -196,6 +196,12 @@
 		</div>
 	{/if} -->
 
+	{#if post.imageUrl}
+		<div class="mb-3 md:mb-4">
+			<img src={post.imageUrl} alt={post.title} class="w-full rounded-lg object-cover" />
+		</div>
+	{/if}
+
 	{#if post.showTitle || post.showContent}
 		<div class="mb-3 md:mb-4">
 			{#if post.showTitle}

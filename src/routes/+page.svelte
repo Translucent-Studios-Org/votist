@@ -9,8 +9,8 @@
 
 <div class="min-h-screen bg-white">
 	<!-- Hero Section -->
-	<section class="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center md:pt-24 md:pb-16">
-		<h1 class="mb-4 text-4xl leading-tight font-extrabold text-votist-blue md:text-6xl">
+	<section class="mx-auto max-w-4xl px-4 pt-10 pb-8 text-center md:pt-16 md:pb-10">
+		<h1 class="mb-3 text-4xl leading-tight font-extrabold text-votist-blue md:text-6xl">
 			A new <span class="text-votist-gold">civic forum</span><br />
 			for a troubled internet
 		</h1>
@@ -20,7 +20,7 @@
 	</section>
 
 	<!-- CTA Banner -->
-	<section class="bg-votist-blue-dark mx-4 mb-16 rounded-xl p-6 md:mx-auto md:max-w-4xl md:p-8">
+	<section class="bg-votist-blue-dark mx-4 mb-10 rounded-xl p-6 md:mx-auto md:max-w-4xl md:p-8">
 		<div class="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
 			<div>
 				<p class="mb-1 text-sm text-white/80 md:text-base">
@@ -41,7 +41,7 @@
 	</section>
 
 	<!-- Vote Section -->
-	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
+	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Vote</h2>
@@ -72,7 +72,7 @@
 	</section>
 
 	<!-- Discuss Section -->
-	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
+	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Discuss</h2>
@@ -144,8 +144,8 @@
 	</section>
 
 	<!-- How Votist Works -->
-	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
-		<h2 class="text-votist-blue mb-10 text-3xl font-bold md:text-4xl">How Votist works</h2>
+	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
+		<h2 class="text-votist-blue mb-6 text-3xl font-bold md:text-4xl">How Votist works</h2>
 		<div class="grid gap-8 md:grid-cols-3">
 			<div class="flex items-start gap-4">
 				<img src={knowledgeIcon} alt="Background information" class="mt-1 h-8 w-8 flex-shrink-0" />
@@ -169,7 +169,7 @@
 	</section>
 
 	<!-- Bottom CTA -->
-	<section class="flex justify-center px-4 pb-16">
+	<section class="flex justify-center px-4 pb-10">
 		<a
 			href="/san-rafael"
 			class="bg-votist-gold inline-block rounded-lg px-10 py-3 text-lg font-bold text-white shadow-md transition hover:brightness-110"

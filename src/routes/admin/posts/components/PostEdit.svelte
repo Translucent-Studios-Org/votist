@@ -30,6 +30,7 @@
 
 	let title = post.title || '';
 	let content = post.content || '';
+	let imageUrl = post.imageUrl || '';
 	let category = post.category || categories[0];
 	let tags: string[] = post.tags || [];
 	let tagInput = '';
@@ -142,6 +143,7 @@
 			const postData: any = {
 				title: title.trim(),
 				content: content.trim(),
+				imageUrl: imageUrl.trim() || null,
 				category,
 				tags,
 				showTitle,
@@ -230,6 +232,24 @@
 		<div class="label">
 			<span class="label-text-alt text-gray-500">
 				Write engaging content that encourages discussion and community participation.
+			</span>
+		</div>
+	</div>
+
+	<div class="form-control w-full">
+		<label class="label" for="imageUrl">
+			<span class="label-text font-semibold">Image URL (optional)</span>
+		</label>
+		<input
+			id="imageUrl"
+			type="url"
+			class="input input-bordered w-full"
+			bind:value={imageUrl}
+			placeholder="https://example.com/image.jpg"
+		/>
+		<div class="label">
+			<span class="label-text-alt text-gray-500">
+				Paste a link to an image to display at the top of the post.
 			</span>
 		</div>
 	</div>

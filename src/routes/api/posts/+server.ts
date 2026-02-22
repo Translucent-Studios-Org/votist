@@ -207,6 +207,7 @@ export const POST: RequestHandler = async (event) => {
 			data: {
 				title: data.title,
 				content: data.content,
+				imageUrl: data.imageUrl || null,
 				authorId: dbUser.id,
 				category: data.category,
 				tags: data.tags || [],
