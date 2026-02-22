@@ -42,7 +42,7 @@
 			<div class="flex h-9 w-9 items-center justify-center rounded-lg bg-[#167B9B]">
 				<img src={voteIcon} alt="Vote" class="h-5 w-5 invert" />
 			</div>
-			<h1 class="text-2xl font-bold text-gray-900 md:text-3xl">Vote and Discuss</h1>
+			<h1 class="text-2xl font-bold text-votist-blue md:text-3xl">Vote and Discuss</h1>
 		</div>
 		<span
 			class="bg-votist-gold mb-3 inline-block rounded-full px-3 py-1 text-sm font-medium text-white"

@@ -210,6 +210,8 @@ export const POST: RequestHandler = async (event) => {
 				authorId: dbUser.id,
 				category: data.category,
 				tags: data.tags || [],
+				showTitle: data.showTitle ?? true,
+				showContent: data.showContent ?? true,
 				quizGateType: data.quizGateType || 'NONE',
 				quizGateDifficulty: data.quizGateDifficulty || null,
 				quizGateQuizId: data.quizGateQuizId || null,

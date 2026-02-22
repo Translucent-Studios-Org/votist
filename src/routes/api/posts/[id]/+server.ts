@@ -1,6 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { getUser } from '$lib/server/auth';
+import { checkUserBanStatus } from '$lib/server/moderation';
 import { prisma } from '$lib/server/db/prisma';
 
 const authorSelect = {
@@ -162,6 +163,8 @@ export const PUT: RequestHandler = async (event) => {
 				content: data.content,
 				category: data.category,
 				tags: data.tags || [],
+				showTitle: data.showTitle ?? true,
+				showContent: data.showContent ?? true,
 				quizGateType: data.quizGateType || 'NONE',
 				quizGateDifficulty: data.quizGateDifficulty || null,
 				quizGateQuizId: data.quizGateQuizId || null
@@ -253,6 +256,12 @@ export const POST: RequestHandler = async (event) => {
 
 		if (!dbUser) {
 			return json({ error: 'User not found in database' }, { status: 404 });
+		}
+
+		// Check if user is banned
+		const banStatus = await checkUserBanStatus(dbUser.id);
+		if (banStatus.isBanned) {
+			return json({ error: 'Your account has been suspended', reason: banStatus.reason }, { status: 403 });
 		}
 
 		// Verify the post exists

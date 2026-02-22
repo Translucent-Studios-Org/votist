@@ -16,7 +16,7 @@
 		</div>
 
 		<!-- Message -->
-		<h1 class="mb-3 text-2xl font-bold text-gray-800 md:text-3xl">
+		<h1 class="mb-3 text-2xl font-bold text-votist-blue md:text-3xl">
 			{#if page.status === 404}
 				Page not found
 			{:else}

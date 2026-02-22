@@ -113,6 +113,13 @@ model User {
   role           String         @default("visitor")
   isAdmin        Boolean        @default(false)
   isResident     Boolean        @default(false)
+  // Moderation fields
+  isBanned       Boolean        @default(false)
+  banType        String?        // "permanent" | "temporary"
+  banReason      String?
+  bannedAt       DateTime?
+  banExpiresAt   DateTime?      // null for permanent bans
+  bannedById     String?        // admin User.id who issued the ban
   userProgress UserProgress[]
   posts        Post[]
   comments     Comment[]
@@ -121,6 +128,8 @@ model User {
   commentLikes CommentLike[]
   sessions     Session[]
   accounts     Account[]
+  moderationTargets ModerationLog[] @relation("ModerationTarget")
+  moderationActions ModerationLog[] @relation("ModerationAdmin")
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
 }
@@ -165,6 +174,8 @@ model Post {
   postLikes    PostLike[]
   poll         Poll?
   isBookmarked Boolean    @default(false)
+  showTitle    Boolean    @default(true)
+  showContent  Boolean    @default(true)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
   quizGateType       QuizGateType    @default(NONE)
@@ -267,4 +278,28 @@ model CommentLike {
   @@unique([userId, commentId])
   @@index([userId])
   @@index([commentId])
+}
+
+enum ModerationAction {
+  WARN
+  BAN
+  SUSPEND
+  UNBAN
+  DELETE_COMMENT
+}
+
+model ModerationLog {
+  id        String           @id @default(cuid())
+  action    ModerationAction
+  targetId  String
+  target    User             @relation("ModerationTarget", fields: [targetId], references: [id])
+  adminId   String
+  admin     User             @relation("ModerationAdmin", fields: [adminId], references: [id])
+  reason    String?
+  metadata  Json?
+  createdAt DateTime         @default(now())
+
+  @@index([targetId])
+  @@index([adminId])
+  @@index([createdAt])
 }

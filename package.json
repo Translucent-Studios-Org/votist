@@ -66,6 +66,7 @@
 		"@vimeo/player": "^2.29.5",
 		"bcryptjs": "^3.0.3",
 		"qrcode": "^1.5.4",
+		"resend": "^6.9.2",
 		"superjson": "^2.2.2",
 		"svelte-clerk": "^0.13.0",
 		"svelte-dnd-action": "^0.9.61",

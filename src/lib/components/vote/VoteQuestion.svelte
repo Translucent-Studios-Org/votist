@@ -3,7 +3,7 @@
 </script>
 
 <div class="mb-8">
-	<h4 class="text-xl font-semibold text-gray-800">
+	<h4 class="text-xl font-semibold text-votist-blue">
 		{question}
 	</h4>
 </div>

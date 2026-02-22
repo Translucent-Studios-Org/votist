@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { CommentData } from '$lib/types';
-	import { MoreHorizontal, ArrowUp, MessageCircle, Pencil, Trash2 } from 'lucide-svelte';
+	import { MoreHorizontal, ArrowUp, MessageCircle, Pencil, Trash2, AlertTriangle, Ban } from 'lucide-svelte';
 
 	export let comment: CommentData;
 	export let onAddReply: (reply: CommentData) => void;
@@ -25,6 +25,19 @@
 	let isDeleting = false;
 	let isSavingEdit = false;
 
+	// Moderation state
+	let showWarnModal = false;
+	let showBanModal = false;
+	let warnMessage = '';
+	let banReason = '';
+	let banType: 'permanent' | 'temporary' = 'temporary';
+	let banDuration = 7;
+	let isModerating = false;
+	let moderationSuccess = '';
+
+	// Check if current user is admin
+	$: isAdmin = user?.publicMetadata?.role === 'admin';
+
 	// Check if current user owns this comment
 	$: isOwner = (() => {
 		if (!isAuthenticated || !user) return false;
@@ -44,7 +57,7 @@
 		return elapsed < EDIT_WINDOW_MS;
 	})();
 
-	$: canDelete = isOwner;
+	$: canDelete = isOwner || isAdmin;
 
 	function formatTimestamp(ts: string) {
 		const date = new Date(ts);
@@ -203,6 +216,61 @@
 		}
 	}
 
+	async function handleWarn() {
+		if (!comment.authorId || isModerating || !warnMessage.trim()) return;
+		isModerating = true;
+		try {
+			const response = await fetch(`/api/admin/users/${comment.authorId}/warn`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ message: warnMessage.trim() })
+			});
+			if (response.ok) {
+				showWarnModal = false;
+				warnMessage = '';
+				moderationSuccess = 'Warning sent successfully';
+				setTimeout(() => (moderationSuccess = ''), 3000);
+			} else {
+				const result = await response.json();
+				console.error('Failed to warn user:', result.error);
+			}
+		} catch (error) {
+			console.error('Error sending warning:', error);
+		} finally {
+			isModerating = false;
+		}
+	}
+
+	async function handleBan() {
+		if (!comment.authorId || isModerating || !banReason.trim()) return;
+		isModerating = true;
+		try {
+			const response = await fetch(`/api/admin/users/${comment.authorId}/ban`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({
+					type: banType,
+					duration: banType === 'temporary' ? banDuration : undefined,
+					reason: banReason.trim()
+				})
+			});
+			if (response.ok) {
+				showBanModal = false;
+				banReason = '';
+				moderationSuccess =
+					banType === 'permanent' ? 'User permanently banned' : `User suspended for ${banDuration} day(s)`;
+				setTimeout(() => (moderationSuccess = ''), 3000);
+			} else {
+				const result = await response.json();
+				console.error('Failed to ban user:', result.error);
+			}
+		} catch (error) {
+			console.error('Error banning user:', error);
+		} finally {
+			isModerating = false;
+		}
+	}
+
 	const shouldIndent = depth > 0;
 </script>
 
@@ -227,7 +295,7 @@
 				<span class="text-xs text-gray-500">&middot;</span>
 				<span class="text-xs text-gray-500">{formatTimestamp(comment.timestamp)}</span>
 
-				{#if isOwner}
+				{#if isOwner || isAdmin}
 					<div class="relative ml-auto">
 						<button
 							class="flex h-6 w-6 items-center justify-center rounded p-0 hover:bg-gray-100"
@@ -237,7 +305,7 @@
 						</button>
 
 						{#if showMenu}
-							<div class="absolute right-0 z-10 mt-1 w-32 rounded-md border border-gray-200 bg-white py-1 shadow-lg">
+							<div class="absolute right-0 z-10 mt-1 w-40 rounded-md border border-gray-200 bg-white py-1 shadow-lg">
 								{#if canEdit}
 									<button
 										class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm text-gray-700 hover:bg-gray-50"
@@ -256,15 +324,36 @@
 										Delete
 									</button>
 								{/if}
+								{#if isAdmin && !isOwner}
+									<div class="my-1 border-t border-gray-100"></div>
+									<button
+										class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm text-amber-600 hover:bg-amber-50"
+										on:click|stopPropagation={() => { showMenu = false; showWarnModal = true; }}
+									>
+										<AlertTriangle class="h-3 w-3" />
+										Warn User
+									</button>
+									<button
+										class="flex w-full items-center gap-2 px-3 py-1.5 text-left text-sm text-red-600 hover:bg-red-50"
+										on:click|stopPropagation={() => { showMenu = false; showBanModal = true; }}
+									>
+										<Ban class="h-3 w-3" />
+										Ban User
+									</button>
+								{/if}
 							</div>
 						{/if}
 					</div>
-				{:else}
+				{:else if isAuthenticated}
 					<button
 						class="ml-auto flex h-6 w-6 items-center justify-center rounded p-0 hover:bg-gray-100"
 					>
 						<MoreHorizontal class="h-3 w-3" />
 					</button>
+				{/if}
+
+				{#if moderationSuccess}
+					<span class="text-xs text-green-600">{moderationSuccess}</span>
 				{/if}
 			</div>
 
@@ -413,3 +502,103 @@
 		</div>
 	</div>
 </div>
+
+<!-- Warn User Modal -->
+{#if showWarnModal}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+		on:click|self={() => (showWarnModal = false)}
+		role="dialog"
+	>
+		<div class="mx-4 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+			<h3 class="mb-4 text-lg font-semibold">Warn User: {comment.author.name}</h3>
+			<textarea
+				bind:value={warnMessage}
+				placeholder="Describe the warning reason..."
+				class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+				rows="4"
+			></textarea>
+			<p class="mt-2 text-xs text-gray-500">This will send an email warning to the user.</p>
+			<div class="mt-4 flex justify-end gap-2">
+				<button
+					class="rounded bg-gray-200 px-4 py-2 text-sm"
+					on:click={() => (showWarnModal = false)}
+				>
+					Cancel
+				</button>
+				<button
+					class="rounded bg-amber-500 px-4 py-2 text-sm text-white disabled:opacity-50"
+					disabled={!warnMessage.trim() || isModerating}
+					on:click={handleWarn}
+				>
+					{isModerating ? 'Sending...' : 'Send Warning'}
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}
+
+<!-- Ban User Modal -->
+{#if showBanModal}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+		on:click|self={() => (showBanModal = false)}
+		role="dialog"
+	>
+		<div class="mx-4 w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+			<h3 class="mb-4 text-lg font-semibold">Ban User: {comment.author.name}</h3>
+			<div class="mb-3">
+				<label class="mb-1 block text-sm font-medium" for="ban-type">Ban Type</label>
+				<select
+					id="ban-type"
+					bind:value={banType}
+					class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+				>
+					<option value="temporary">Temporary Suspension</option>
+					<option value="permanent">Permanent Ban</option>
+				</select>
+			</div>
+			{#if banType === 'temporary'}
+				<div class="mb-3">
+					<label class="mb-1 block text-sm font-medium" for="ban-duration">Duration (days)</label>
+					<input
+						id="ban-duration"
+						type="number"
+						bind:value={banDuration}
+						min="1"
+						max="365"
+						class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+					/>
+				</div>
+			{/if}
+			<div class="mb-3">
+				<label class="mb-1 block text-sm font-medium" for="ban-reason">Reason</label>
+				<textarea
+					id="ban-reason"
+					bind:value={banReason}
+					placeholder="Reason for ban..."
+					class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm"
+					rows="3"
+				></textarea>
+			</div>
+			<p class="mb-4 text-xs text-gray-500">
+				The user will be notified by email and unable to comment, vote, or like.
+			</p>
+			<div class="flex justify-end gap-2">
+				<button
+					class="rounded bg-gray-200 px-4 py-2 text-sm"
+					on:click={() => (showBanModal = false)}
+				>
+					Cancel
+				</button>
+				<button
+					class="rounded bg-red-600 px-4 py-2 text-sm text-white disabled:opacity-50"
+					disabled={!banReason.trim() || isModerating}
+					on:click={handleBan}
+				>
+					{isModerating ? 'Processing...' : banType === 'permanent' ? 'Permanently Ban' : 'Suspend User'}
+				</button>
+			</div>
+		</div>
+	</div>
+{/if}

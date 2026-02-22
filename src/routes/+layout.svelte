@@ -8,7 +8,6 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import VotistAssistant from '$lib/components/assistant/VotistAssistant.svelte';
 
-	// Import all navigation icons
 	import homeOutline from '$lib/assets/icons/home-outline.png';
 	import homeFilled from '$lib/assets/icons/home-filled.png';
 	import researchOutline from '$lib/assets/icons/research-outline.png';
@@ -83,7 +82,6 @@
 
 	let userMenuOpen = $state(false);
 	let collapsed = $state(false);
-	let mobileNavOpen = $state(false);
 
 	async function handleSignOut() {
 		if (!browser) return;
@@ -103,16 +101,13 @@
 
 <ClerkProvider {...data.clerk}>
 	<SignedIn>
-		<!-- Main layout with sidebar -->
 		<div class="flex bg-white">
-			<!-- Desktop Sidebar (hidden on mobile) -->
 			<aside
 				class="fixed hidden h-screen border-r border-blue-200 bg-white shadow-lg transition-all duration-300 md:block {collapsed
 					? 'w-[4.5rem]'
 					: 'w-64'}"
 			>
 				<div class="flex h-full flex-col overflow-hidden">
-					<!-- Logo & Toggle Section -->
 					<div
 						class="flex items-center border-b border-blue-200 {collapsed
 							? 'justify-center p-4'
@@ -146,7 +141,6 @@
 						</button>
 					</div>
 
-					<!-- User Profile Section -->
 					<div
 						class="border-b border-blue-200 p-4 {collapsed
 							? 'flex justify-center'
@@ -181,7 +175,7 @@
 								{/if}
 								{#if !collapsed}
 									<div class="flex-1 text-left">
-										<h2 class="text-sm font-bold text-gray-800">
+										<h2 class="text-sm font-bold text-votist-blue">
 											{data.user?.fullName || 'Anonymous'}
 										</h2>
 										<p class="text-xs capitalize text-gray-500">
@@ -238,11 +232,9 @@
 						</div>
 					</div>
 
-					<!-- Navigation -->
 					<nav class="flex-1 space-y-1 {collapsed ? 'p-2' : 'p-4'}">
 						{#each navItems as item}
 							{#if item.hasSubItems}
-								<!-- Assembly: section label (no icon) + always-highlighted sub-item -->
 								{#if !collapsed}
 									<div class="mb-1 mt-2">
 										<p class="px-3 py-1 text-xs font-medium tracking-wide uppercase text-gray-400">
@@ -291,7 +283,6 @@
 						{/each}
 					</nav>
 
-					<!-- Bottom Navigation (Profile & Settings) -->
 					<div class="border-t border-gray-200 {collapsed ? 'p-2' : 'p-4'}">
 						<nav class="space-y-1">
 							{#each bottomNavItems as item}
@@ -328,172 +319,72 @@
 				</div>
 			</aside>
 
-			<!-- Mobile Bottom Bar (hidden on desktop) -->
-			<div class="fixed inset-x-0 bottom-0 z-40 md:hidden">
-				<!-- Expanded nav panel -->
-				{#if mobileNavOpen}
-					<!-- Backdrop -->
-					<button
-						class="fixed inset-0 bg-black/30"
-						onclick={() => (mobileNavOpen = false)}
-						aria-label="Close menu"
-					></button>
-
-					<!-- Slide-up panel -->
-					<div
-						class="relative rounded-t-2xl border-t border-blue-200 bg-white px-4 pb-20 pt-4 shadow-2xl"
-					>
-						<!-- Drag handle -->
-						<div class="mb-3 flex justify-center">
-							<div class="h-1 w-10 rounded-full bg-gray-300"></div>
-						</div>
-
-						<!-- User profile row -->
-						<div class="mb-4 border-b border-gray-100 pb-4">
-							<div class="flex items-center gap-3">
-								{#if data.user?.avatarUrl}
-									<img
-										src={data.user.avatarUrl}
-										alt="Profile"
-										class="h-10 w-10 rounded-full object-cover ring-2 ring-[#167B9B]"
-									/>
-								{:else}
-									<div
-										class="flex h-10 w-10 items-center justify-center rounded-full bg-[#167B9B] text-sm font-bold text-white"
-									>
-										{(data.user?.fullName || 'A').charAt(0).toUpperCase()}
-									</div>
-								{/if}
-								<div class="flex-1">
-									<h2 class="text-sm font-bold text-gray-800">
-										{data.user?.fullName || 'Anonymous'}
-									</h2>
-									<p class="text-xs capitalize text-gray-500">
-										{data.user?.role || 'visitor'}
-									</p>
-								</div>
-								<button
-									class="rounded-lg px-3 py-1.5 text-sm text-red-600 hover:bg-red-50"
-									onclick={handleSignOut}
-								>
-									Sign Out
-								</button>
-							</div>
-						</div>
-
-						<!-- Nav items grid -->
-						<nav class="grid grid-cols-4 gap-2">
-							{#each navItems as item}
-								{#if item.hasSubItems}
-									<!-- Assembly: show as teal "SR" badge on mobile -->
-									<a
-										href="/san-rafael"
-										class="flex flex-col items-center gap-1 rounded-xl p-3 bg-teal-50 text-[#155E75]"
-										onclick={() => (mobileNavOpen = false)}
-									>
-										<span class="text-lg font-bold text-[#155E75]">SR</span>
-										<span class="text-center text-[10px] leading-tight">San Rafael</span>
-									</a>
-								{:else}
-									<a
-										href={item.path}
-										class="relative flex flex-col items-center gap-1 rounded-xl p-3 {page
-											.url.pathname === item.path ||
-										page.url.pathname.startsWith(item.path + '/')
-											? 'bg-teal-50 text-[#155E75]'
-											: 'text-gray-600 hover:bg-gray-50'}"
-										onclick={() => (mobileNavOpen = false)}
-									>
-										<img
-											src={page.url.pathname === item.path ||
-											page.url.pathname.startsWith(item.path + '/')
-												? item.iconFilled
-												: item.iconOutline}
-											alt={item.name}
-											class="h-6 w-6"
-										/>
-										<span class="text-center text-[10px] leading-tight"
-											>{item.name}</span
-										>
-										{#if item.notification}
-											<span
-												class="absolute right-1 top-1 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold text-white"
-											>
-												{item.notification}
-											</span>
-										{/if}
-									</a>
-								{/if}
-							{/each}
-							{#each bottomNavItems as item}
-								<a
-									href={item.path}
-									class="relative flex flex-col items-center gap-1 rounded-xl p-3 {page.url
-										.pathname === item.path
-										? 'bg-teal-50 text-teal-600'
-										: 'text-gray-600 hover:bg-gray-50'}"
-									onclick={() => (mobileNavOpen = false)}
-								>
-									<img
-										src={page.url.pathname === item.path
-											? item.iconFilled
-											: item.iconOutline}
-										alt={item.name}
-										class="h-6 w-6"
-									/>
-									<span class="text-center text-[10px] leading-tight">{item.name}</span
-									>
-									{#if item.notification}
-										<span
-											class="absolute right-1 top-1 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold text-white"
-										>
-											{item.notification}
-										</span>
-									{/if}
-								</a>
-							{/each}
-						</nav>
-					</div>
-				{/if}
-
-				<!-- Bottom bar (always visible on mobile) -->
-				<div
-					class="flex items-center justify-between border-t border-blue-200 bg-white px-4 py-3 shadow-[0_-2px_10px_rgba(0,0,0,0.08)]"
-				>
-					<!-- Logo -->
-					<a href="/">
-						<img class="h-7" src={logo} alt="votist logo" />
-					</a>
-
-					<!-- Expand button -->
-					<button
-						onclick={() => (mobileNavOpen = !mobileNavOpen)}
-						class="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm text-gray-600 hover:bg-gray-200"
-						aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
-					>
-						<span class="text-xs font-medium">Menu</span>
-						<svg
-							class="h-4 w-4 transition-transform duration-200 {mobileNavOpen
-								? 'rotate-180'
-								: ''}"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
+			<div
+				class="fixed inset-x-0 top-0 z-40 flex items-center justify-between bg-white/95 px-4 py-2 backdrop-blur-sm md:hidden"
+			>
+				<a href="/">
+					<img class="h-7" src={logo} alt="votist logo" />
+				</a>
+				<a href="/profile" class="flex-shrink-0">
+					{#if data.user?.avatarUrl}
+						<img
+							src={data.user.avatarUrl}
+							alt="Profile"
+							class="h-9 w-9 rounded-full object-cover ring-2 ring-[#167B9B]"
+						/>
+					{:else}
+						<div
+							class="flex h-9 w-9 items-center justify-center rounded-full bg-[#167B9B] text-sm font-bold text-white"
 						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M5 15l7-7 7 7"
-							/>
-						</svg>
-					</button>
-				</div>
+							{(data.user?.fullName || 'A').charAt(0).toUpperCase()}
+						</div>
+					{/if}
+				</a>
 			</div>
 
-			<!-- Main Content Area -->
+			<nav
+				class="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-gray-200 bg-white pb-[env(safe-area-inset-bottom)] shadow-[0_-2px_10px_rgba(0,0,0,0.06)] md:hidden"
+			>
+				{#each navItems as item}
+					{#if item.hasSubItems}
+						<a
+							href="/san-rafael"
+							class="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page.url.pathname === '/san-rafael' || page.url.pathname.startsWith('/san-rafael/')
+								? 'text-[#155E75]'
+								: 'text-gray-400'}"
+						>
+							<span class="text-base font-extrabold leading-none text-[#167B9B]">SR</span>
+							<span class="text-[10px] font-medium leading-tight text-[#167B9B]">San Rafael</span>
+						</a>
+					{:else}
+						<a
+							href={item.path}
+							class="relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page.url.pathname === item.path || page.url.pathname.startsWith(item.path + '/')
+								? 'text-[#155E75]'
+								: 'text-gray-400'}"
+						>
+							<img
+								src={page.url.pathname === item.path || page.url.pathname.startsWith(item.path + '/')
+									? item.iconFilled
+									: item.iconOutline}
+								alt={item.name}
+								class="h-6 w-6"
+							/>
+							<span class="text-[10px] leading-tight">{item.name}</span>
+							{#if item.notification}
+								<span
+									class="absolute right-2 top-1 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold text-white"
+								>
+									{item.notification}
+								</span>
+							{/if}
+						</a>
+					{/if}
+				{/each}
+			</nav>
+
 			<main
-				class="flex min-h-screen flex-1 flex-col pb-16 transition-all duration-300 md:pb-0 {collapsed
+				class="flex min-h-screen flex-1 flex-col pt-14 pb-16 transition-all duration-300 md:pt-0 md:pb-0 {collapsed
 					? 'md:ml-[4.5rem]'
 					: 'md:ml-[16rem]'}"
 			>

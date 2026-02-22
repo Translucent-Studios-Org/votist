@@ -1,6 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { getUser } from '$lib/server/auth';
+import { checkUserBanStatus } from '$lib/server/moderation';
 import { prisma } from '$lib/server/db/prisma';
 
 const EDIT_WINDOW_MS = 2 * 60 * 1000; // 2 minutes
@@ -28,6 +29,12 @@ export const PUT: RequestHandler = async (event) => {
 
 		if (!dbUser) {
 			return json({ error: 'User not found' }, { status: 404 });
+		}
+
+		// Check if user is banned
+		const banStatus = await checkUserBanStatus(dbUser.id);
+		if (banStatus.isBanned) {
+			return json({ error: 'Your account has been suspended', reason: banStatus.reason }, { status: 403 });
 		}
 
 		const existingComment = await prisma.comment.findUnique({
@@ -112,6 +119,19 @@ export const DELETE: RequestHandler = async (event) => {
 		await prisma.comment.delete({
 			where: { id: event.params.id }
 		});
+
+		// Log admin deletion as moderation action
+		if (isAdmin && !isOwner) {
+			await prisma.moderationLog.create({
+				data: {
+					action: 'DELETE_COMMENT',
+					targetId: existingComment.authorId,
+					adminId: dbUser.id,
+					reason: 'Comment deleted by admin',
+					metadata: { commentId: event.params.id }
+				}
+			});
+		}
 
 		return json({ success: true });
 	} catch (error: unknown) {

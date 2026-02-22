@@ -10,7 +10,7 @@
 <div class="min-h-screen bg-white">
 	<!-- Hero Section -->
 	<section class="mx-auto max-w-4xl px-4 pt-16 pb-12 text-center md:pt-24 md:pb-16">
-		<h1 class="mb-4 text-4xl leading-tight font-extrabold md:text-6xl">
+		<h1 class="mb-4 text-4xl leading-tight font-extrabold text-votist-blue md:text-6xl">
 			A new <span class="text-votist-gold">civic forum</span><br />
 			for a troubled internet
 		</h1>
@@ -44,7 +44,7 @@
 	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
-				<h2 class="text-votist-blue-dark mb-3 text-3xl font-bold md:text-4xl">Vote</h2>
+				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Vote</h2>
 				<p class="text-lg text-gray-600">Make your voice heard on major civic issues.</p>
 			</div>
 			<div>
@@ -75,7 +75,7 @@
 	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
-				<h2 class="text-votist-blue-dark mb-3 text-3xl font-bold md:text-4xl">Discuss</h2>
+				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Discuss</h2>
 				<p class="text-lg text-gray-600">
 					Exchange ideas with residents grounded in shared context.
 				</p>
@@ -145,7 +145,7 @@
 
 	<!-- How Votist Works -->
 	<section class="mx-auto mb-16 max-w-4xl px-4 md:mb-20">
-		<h2 class="text-votist-blue-dark mb-10 text-3xl font-bold md:text-4xl">How Votist works</h2>
+		<h2 class="text-votist-blue mb-10 text-3xl font-bold md:text-4xl">How Votist works</h2>
 		<div class="grid gap-8 md:grid-cols-3">
 			<div class="flex items-start gap-4">
 				<img src={knowledgeIcon} alt="Background information" class="mt-1 h-8 w-8 flex-shrink-0" />

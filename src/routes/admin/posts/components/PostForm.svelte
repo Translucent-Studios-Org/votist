@@ -33,6 +33,10 @@
 	let tags: string[] = [];
 	let tagInput = '';
 
+	// Display settings
+	let showTitle = true;
+	let showContent = true;
+
 	// Poll-related fields
 	let includePoll = false;
 	let pollQuestion = '';
@@ -141,6 +145,8 @@
 				content: content.trim(),
 				category,
 				tags,
+				showTitle,
+				showContent,
 				quizGateType: enableQuizGate ? quizGateType : 'NONE',
 				quizGateDifficulty: enableQuizGate && quizGateType === 'DIFFICULTY' ? quizGateDifficulty : null,
 				quizGateQuizId: enableQuizGate && quizGateType === 'SPECIFIC_QUIZ' ? quizGateQuizId : null
@@ -272,6 +278,28 @@
 				{/each}
 			</div>
 		{/if}
+	</div>
+
+	<div class="divider">Display Settings</div>
+
+	<div class="card bg-base-200 space-y-2 p-4">
+		<div class="form-control">
+			<label class="label cursor-pointer">
+				<span class="label-text">Show title on post</span>
+				<input type="checkbox" class="checkbox checkbox-primary" bind:checked={showTitle} />
+			</label>
+		</div>
+		<div class="form-control">
+			<label class="label cursor-pointer">
+				<span class="label-text">Show content/description on post</span>
+				<input type="checkbox" class="checkbox checkbox-primary" bind:checked={showContent} />
+			</label>
+		</div>
+		<div class="label">
+			<span class="label-text-alt text-gray-500">
+				Controls whether title and content are visible to voters. Admin views always show both.
+			</span>
+		</div>
 	</div>
 
 	<div class="divider">Optional Poll</div>

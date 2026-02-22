@@ -16,6 +16,9 @@
 				<li>
 					<a href="/admin/posts" class:active={$page.url.pathname.includes('/posts')}>Posts</a>
 				</li>
+				<li>
+					<a href="/admin/moderation" class:active={$page.url.pathname.includes('/moderation')}>Moderation</a>
+				</li>
 			</ul>
 		</div>
 	</div>

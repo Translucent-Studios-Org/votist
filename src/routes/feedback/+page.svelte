@@ -3,7 +3,7 @@
 </script>
 
 <div class="mx-auto max-w-2xl px-4 py-8 md:px-6 md:py-12">
-	<h1 class="mb-2 text-2xl font-bold text-gray-800 md:text-3xl">Your Feedback</h1>
+	<h1 class="mb-2 text-2xl font-bold text-votist-blue md:text-3xl">Your Feedback</h1>
 	<p class="mb-8 text-gray-600">Help us improve Votist. We'd love to hear your thoughts, suggestions, and ideas for making our platform better.</p>
 
 	{#if submitted}

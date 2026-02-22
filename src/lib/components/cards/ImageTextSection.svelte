@@ -17,7 +17,7 @@
 		{/if}
 
 		<div class="w-full space-y-4 md:flex-1 md:space-y-6">
-			<h2 class="text-votist-blue-dark text-2xl font-bold md:text-3xl">
+			<h2 class="text-votist-blue text-2xl font-bold md:text-3xl">
 				{heading}
 			</h2>
 			<p class="text-base text-gray-700 md:text-lg">

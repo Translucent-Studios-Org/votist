@@ -2,6 +2,7 @@ import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { getUser } from '$lib/server/auth';
 import { userMeetsPostQuizGate } from '$lib/server/quizPermissions';
+import { checkUserBanStatus } from '$lib/server/moderation';
 import { prisma } from '$lib/server/db/prisma';
 
 const authorSelect = {
@@ -83,6 +84,7 @@ export const GET: RequestHandler = async (event) => {
 
 		const transformedComments = comments.map((comment) => ({
 			id: comment.id,
+			authorId: comment.authorId,
 			author: transformAuthor(comment.author),
 			content: comment.content,
 			timestamp: comment.createdAt.toISOString(),
@@ -90,6 +92,7 @@ export const GET: RequestHandler = async (event) => {
 			isLiked: commentLikeSet.has(comment.id),
 			replies: (comment.threadReplies || []).map((reply) => ({
 				id: reply.id,
+				authorId: reply.authorId,
 				author: transformAuthor(reply.author),
 				content: reply.content,
 				timestamp: reply.createdAt.toISOString(),
@@ -128,6 +131,12 @@ export const POST: RequestHandler = async (event) => {
 
 		if (!dbUser) {
 			return json({ error: 'User not found in database' }, { status: 404 });
+		}
+
+		// Check if user is banned
+		const banStatus = await checkUserBanStatus(dbUser.id);
+		if (banStatus.isBanned) {
+			return json({ error: 'Your account has been suspended', reason: banStatus.reason }, { status: 403 });
 		}
 
 		// Verify the post exists and check quiz gate in one query
@@ -180,6 +189,7 @@ export const POST: RequestHandler = async (event) => {
 
 		const transformedComment = {
 			id: comment.id,
+			authorId: comment.authorId,
 			author: transformAuthor(comment.author),
 			content: comment.content,
 			timestamp: comment.createdAt.toISOString(),

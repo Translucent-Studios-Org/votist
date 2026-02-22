@@ -104,19 +104,22 @@
 
 			if (response.ok && data.success) {
 				if (data.poll && post.poll) {
-					post.poll = {
-						...post.poll,
-						question: data.poll.question || post.poll.question,
-						totalVotes: data.poll.totalVotes ?? post.poll.totalVotes,
-						options:
-							data.poll.options?.map((serverOption: any) => ({
-								id: serverOption.id,
-								text: serverOption.text,
-								votes: serverOption.votes ?? 0
-							})) || post.poll.options,
-						userVote: data.userVote,
-						endsAt: data.poll.endsAt || post.poll.endsAt
-					};
+					// Update vote counts in-place to preserve option order
+					if (data.poll.options) {
+						const serverOptionsMap = new Map(
+							data.poll.options.map((o: any) => [o.id, o])
+						);
+						post.poll.options = post.poll.options.map((existing) => {
+							const server = serverOptionsMap.get(existing.id);
+							return server
+								? { ...existing, votes: server.votes ?? 0 }
+								: existing;
+						});
+					}
+					post.poll.question = data.poll.question || post.poll.question;
+					post.poll.totalVotes = data.poll.totalVotes ?? post.poll.totalVotes;
+					post.poll.userVote = data.userVote;
+					post.poll.endsAt = data.poll.endsAt || post.poll.endsAt;
 				}
 			} else if (response.status === 403 && data.error === 'Quiz requirement not met') {
 				if (revertVote && post.poll) {
@@ -193,12 +196,18 @@
 		</div>
 	{/if} -->
 
-	<div class="mb-3 md:mb-4">
-		<h1 class="mb-2 text-lg font-semibold md:mb-3 md:text-xl">{post.title}</h1>
-		<div class="prose prose-sm max-w-none">
-			<p class="text-sm whitespace-pre-wrap text-gray-700 md:text-base">{post.content}</p>
+	{#if post.showTitle || post.showContent}
+		<div class="mb-3 md:mb-4">
+			{#if post.showTitle}
+				<h1 class="mb-2 text-lg font-semibold md:mb-3 md:text-xl">{post.title}</h1>
+			{/if}
+			{#if post.showContent}
+				<div class="prose prose-sm max-w-none">
+					<p class="text-sm whitespace-pre-wrap text-gray-700 md:text-base">{post.content}</p>
+				</div>
+			{/if}
 		</div>
-	</div>
+	{/if}
 
 	<!-- Poll Section -->
 	{#if post.poll}
@@ -394,7 +403,7 @@
 			tabindex="-1"
 		>
 			<div class="mb-4">
-				<h3 class="mb-2 text-xl font-bold text-gray-900">Knowledge Check Required to Vote</h3>
+				<h3 class="mb-2 text-xl font-bold text-votist-blue">Knowledge Check Required to Vote</h3>
 				<p class="text-gray-600">
 					{quizRequirementMessage}
 				</p>

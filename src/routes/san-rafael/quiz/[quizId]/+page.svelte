@@ -164,7 +164,7 @@
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
 				</svg>
 			</div>
-			<h2 class="mb-2 text-xl font-bold text-gray-900 md:text-2xl">Knowledge Check Passed!</h2>
+			<h2 class="mb-2 text-xl font-bold text-votist-blue md:text-2xl">Knowledge Check Passed!</h2>
 			<p class="mb-6 text-base text-gray-600">
 				You have already passed the knowledge check. Feel free to vote and discuss!
 			</p>

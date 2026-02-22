@@ -9,7 +9,7 @@
 
 <div class="flex flex-col items-center justify-center bg-gray-50 px-4 py-16 md:my-0 md:py-[20vh]">
 	<div class="max-w-3xl text-center">
-		<h1 class="text-votist-blue-dark mb-6 text-2xl font-bold md:mb-8 md:text-4xl">{heading}</h1>
+		<h1 class="text-votist-blue mb-6 text-2xl font-bold md:mb-8 md:text-4xl">{heading}</h1>
 		<p class="mb-4 text-base text-gray-700 md:mb-6 md:text-lg">
 			<span class="font-semibold">{boldcontent}</span>
 			{content}

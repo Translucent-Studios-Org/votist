@@ -109,6 +109,8 @@ export const load: PageServerLoad = async ({ params, url }) => {
 		comments: post._count.comments,
 		isLiked: false,
 		isBookmarked: false,
+		showTitle: post.showTitle,
+		showContent: post.showContent,
 		tags: post.tags || [],
 		poll: pollData
 	};

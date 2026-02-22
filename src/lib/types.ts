@@ -85,6 +85,8 @@ export interface PostData {
 	comments: number;
 	isLiked?: boolean; // Optional, calculated dynamically
 	isBookmarked: boolean;
+	showTitle: boolean;
+	showContent: boolean;
 	tags: string[];
 	poll?: Poll;
 }
@@ -103,6 +105,8 @@ export interface Post {
 	votes: Vote[];
 	poll?: Poll;
 	isBookmarked: boolean;
+	showTitle: boolean;
+	showContent: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 }
@@ -128,6 +132,7 @@ export interface Vote {
 
 export interface CommentData {
 	id: string;
+	authorId?: string; // Internal DB user ID for moderation actions
 	author: {
 		name: string;
 		avatar: string;

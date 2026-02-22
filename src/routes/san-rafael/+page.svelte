@@ -7,7 +7,7 @@
 		<!-- Header -->
 		<div class="mb-6 md:mb-8">
 			<p class="mb-1 text-sm font-medium tracking-wide text-gray-500 uppercase">Assembly</p>
-			<h1 class="mb-3 text-2xl font-bold text-gray-900 md:text-3xl">
+			<h1 class="mb-3 text-2xl font-bold text-votist-blue md:text-3xl">
 				San Rafael Housing and the Future
 			</h1>
 			<p class="mb-3 text-base leading-relaxed text-gray-700 md:text-lg">
@@ -23,7 +23,7 @@
 
 		<!-- Watch the Orientation -->
 		<div class="mb-6 md:mb-8">
-			<h2 class="mb-3 text-lg font-semibold text-gray-900 md:text-xl">
+			<h2 class="mb-3 text-lg font-semibold text-votist-blue md:text-xl">
 				Watch the Orientation (3 min)
 			</h2>
 			<div class="overflow-hidden rounded-lg shadow-md">
@@ -43,7 +43,7 @@
 
 		<!-- Go Deeper Section -->
 		<div class="mb-8 md:mb-10">
-			<h2 class="mb-1 text-lg font-semibold text-gray-900 md:text-xl">
+			<h2 class="mb-1 text-lg font-semibold text-votist-blue md:text-xl">
 				Go Deeper <span class="text-sm font-normal text-gray-500">(optional but recommended)</span>
 			</h2>
 			<div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -52,7 +52,7 @@
 					href="/san-rafael/background-brief"
 					class="block rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
 				>
-					<h3 class="mb-1 text-base font-bold text-gray-900 italic">Full Background Brief</h3>
+					<h3 class="mb-1 text-base font-bold text-votist-blue italic">Full Background Brief</h3>
 					<p class="mb-2 text-xs font-medium text-gray-500">10 min Read</p>
 					<p class="text-sm leading-relaxed text-gray-600">
 						A structured explanation of housing policies and state power.
@@ -63,7 +63,7 @@
 					href="/san-rafael/study-guide"
 					class="block rounded-lg border border-gray-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md"
 				>
-					<h3 class="mb-1 text-base font-bold text-gray-900 italic">Plain-Language Study Guide</h3>
+					<h3 class="mb-1 text-base font-bold text-votist-blue italic">Plain-Language Study Guide</h3>
 					<p class="mb-2 text-xs font-medium text-gray-500">5 min Read</p>
 					<p class="text-sm leading-relaxed text-gray-600">
 						Key facts summarized. A clear prep for the Knowledge Check.
@@ -74,11 +74,11 @@
 
 		<!-- Primary Sources & References -->
 		<div class="mb-8 md:mb-10">
-			<h2 class="mb-4 text-lg font-semibold text-gray-900 md:text-xl">
+			<h2 class="mb-4 text-lg font-semibold text-votist-blue md:text-xl">
 				Primary Sources & References
 			</h2>
 			<div class="rounded-lg border border-gray-200 bg-white p-5 shadow-sm md:p-6">
-				<h3 class="mb-4 text-base font-bold text-gray-900">
+				<h3 class="mb-4 text-base font-bold text-votist-blue">
 					City & Local Government Sources (Core)
 				</h3>
 				<div class="space-y-5">

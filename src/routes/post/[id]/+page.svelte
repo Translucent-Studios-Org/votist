@@ -227,7 +227,7 @@
 		<!-- Bottom CTA (hidden in print) -->
 		<div class="mt-6 rounded-lg border border-[#167b9b]/20 bg-white p-6 text-center md:p-8 print:hidden">
 			<img src={logo} alt="Votist" class="mx-auto mb-4 h-8" />
-			<h2 class="mb-2 text-xl font-bold text-gray-900">Want to join the conversation?</h2>
+			<h2 class="mb-2 text-xl font-bold text-votist-blue">Want to join the conversation?</h2>
 			<p class="mx-auto mb-6 max-w-lg text-gray-600">
 				Votist is a civic engagement platform where informed citizens vote on real community issues.
 				Complete quizzes, earn voting power, and make your voice count.

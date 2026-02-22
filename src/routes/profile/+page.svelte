@@ -5,7 +5,7 @@
 </script>
 
 <div class="mx-auto max-w-4xl p-8">
-	<h1 class="mb-8 text-2xl font-bold text-gray-800">My Profile</h1>
+	<h1 class="mb-8 text-2xl font-bold text-votist-blue">My Profile</h1>
 
 	<div class="rounded-xl border border-gray-200 bg-white p-8 shadow-lg">
 		<!-- Avatar + Name Header -->
@@ -24,7 +24,7 @@
 				</div>
 			{/if}
 			<div>
-				<h2 class="text-xl font-bold text-gray-800">
+				<h2 class="text-xl font-bold text-votist-blue">
 					{data.profile.firstName || ''} {data.profile.lastName || ''}
 				</h2>
 				<p class="text-sm text-gray-500">{data.profile.email}</p>

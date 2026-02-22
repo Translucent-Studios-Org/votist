@@ -16,7 +16,7 @@
 			<p class="mb-2 text-sm font-medium tracking-wide text-gray-500 uppercase">
 				Full Background Brief
 			</p>
-			<h1 class="mb-3 text-2xl font-bold leading-tight text-gray-900 md:text-3xl lg:text-4xl">
+			<h1 class="mb-3 text-2xl font-bold leading-tight text-votist-blue md:text-3xl lg:text-4xl">
 				San Rafael at a Crossroads: Housing, State Power, and Civic Agency
 			</h1>
 			<p class="text-sm italic text-gray-500">

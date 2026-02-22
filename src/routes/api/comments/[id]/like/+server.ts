@@ -1,6 +1,7 @@
 import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 import { getUser } from '$lib/server/auth';
+import { checkUserBanStatus } from '$lib/server/moderation';
 import { prisma } from '$lib/server/db/prisma';
 
 // POST /api/comments/[id]/like - Toggle like on a comment
@@ -19,6 +20,12 @@ export const POST: RequestHandler = async (event) => {
 
 		if (!dbUser) {
 			return json({ error: 'User not found' }, { status: 404 });
+		}
+
+		// Check if user is banned
+		const banStatus = await checkUserBanStatus(dbUser.id);
+		if (banStatus.isBanned) {
+			return json({ error: 'Your account has been suspended', reason: banStatus.reason }, { status: 403 });
 		}
 
 		const comment = await prisma.comment.findUnique({

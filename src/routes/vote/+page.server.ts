@@ -134,6 +134,8 @@ export const load: PageServerLoad = async (event) => {
 				comments: post._count.comments,
 				isLiked: postLikeMap.get(post.id) || false,
 				isBookmarked: false,
+				showTitle: post.showTitle,
+				showContent: post.showContent,
 				tags: post.tags || [],
 				poll: pollData
 			};

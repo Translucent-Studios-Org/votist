@@ -8,7 +8,7 @@
 	</div>
 
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-bold text-[#1B4D5C]">Join Us in Building a Smarter Future</h2>
+		<h2 class="mb-4 text-xl font-bold text-votist-blue">Join Us in Building a Smarter Future</h2>
 		<p class="mb-6">
 			Votist is seeking forward-thinking partners—impact investors, civic leaders, creatives, and
 			engaged citizens who share our vision for a better model of digital discourse. Whether you
@@ -23,7 +23,7 @@
 	</section>
 
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-bold text-[#1B4D5C]">What is Votist?</h2>
+		<h2 class="mb-4 text-xl font-bold text-votist-blue">What is Votist?</h2>
 		<p class="mb-6">
 			The Votist mission is to create the world's most advanced technology for solution-oriented
 			civic discourse. The internet is still a relatively new technology—one that has revolutionized
@@ -42,7 +42,7 @@
 	</section>
 
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-bold text-[#1B4D5C]">
+		<h2 class="mb-4 text-xl font-bold text-votist-blue">
 			The Proof of Concept (PoC): A New Approach to Public Discourse
 		</h2>
 		<p>
@@ -55,7 +55,7 @@
 	</section>
 
 	<section class="mb-12">
-		<h2 class="mb-4 text-xl font-bold text-[#1B4D5C]">How It Works: A Phased Rollout</h2>
+		<h2 class="mb-4 text-xl font-bold text-votist-blue">How It Works: A Phased Rollout</h2>
 		<p class="mb-6">
 			The PoC will launch in phases, beginning with a research-driven approach. Initially, we will
 			provide curated materials—videos, documents, and analyses of San Rafael's development

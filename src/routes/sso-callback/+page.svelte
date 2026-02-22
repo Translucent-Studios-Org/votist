@@ -72,7 +72,7 @@
 				<div class="mb-4 flex justify-center">
 					<span class="loading loading-spinner loading-lg text-[#167B9B]"></span>
 				</div>
-				<h2 class="text-xl font-semibold text-gray-900">Completing sign in...</h2>
+				<h2 class="text-xl font-semibold text-votist-blue">Completing sign in...</h2>
 				<p class="mt-2 text-gray-600">Please wait while we complete your authentication.</p>
 			</div>
 		{:else if error}
@@ -92,7 +92,7 @@
 						/>
 					</svg>
 				</div>
-				<h2 class="text-xl font-semibold text-gray-900">Authentication Failed</h2>
+				<h2 class="text-xl font-semibold text-votist-blue">Authentication Failed</h2>
 				<p class="mt-2 text-gray-600">{error}</p>
 				<div class="mt-6 space-y-3">
 					<a href="/sign-in" class="btn w-full bg-[#167B9B] text-white hover:bg-[#155E75]">
