@@ -153,7 +153,7 @@
 
 	function redirectToQuizzes() {
 		showQuizRequirementModal = false;
-		window.location.href = '/san-rafael/quiz';
+		window.location.href = '/san-rafael/quiz/cmliugj750007pepgmpphvune';
 	}
 </script>
 
