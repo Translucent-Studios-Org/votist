@@ -70,9 +70,7 @@ export const GET: RequestHandler = async ({ url }) => {
 						}
 					}
 				},
-				orderBy: {
-					createdAt: 'desc'
-				},
+				orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
 				skip,
 				take: limit
 			});
@@ -128,9 +126,7 @@ export const GET: RequestHandler = async ({ url }) => {
 					}
 				}
 			},
-			orderBy: {
-				createdAt: 'desc'
-			},
+			orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }],
 			skip,
 			take: limit
 		});

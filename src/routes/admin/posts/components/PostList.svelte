@@ -10,6 +10,7 @@
 
 	let showDeleteModal = false;
 	let postToDelete: { id: string; title: string } | null = null;
+	let isSaving = false;
 
 	function handleDelete(id: string, title: string) {
 		postToDelete = { id, title };
@@ -37,6 +38,39 @@
 		}
 	}
 
+	async function movePost(index: number, direction: 'up' | 'down') {
+		const targetIndex = direction === 'up' ? index - 1 : index + 1;
+		if (targetIndex < 0 || targetIndex >= posts.length) return;
+
+		// Swap in local array
+		const temp = posts[index];
+		posts[index] = posts[targetIndex];
+		posts[targetIndex] = temp;
+		posts = posts;
+
+		// Save new order
+		await saveOrder();
+	}
+
+	async function saveOrder() {
+		isSaving = true;
+		try {
+			const orders = posts.map((post, i) => ({ id: post.id, sortOrder: i }));
+			const response = await fetch('/api/posts/reorder', {
+				method: 'PUT',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ orders })
+			});
+			if (!response.ok) {
+				alert('Failed to save order. Please try again.');
+			}
+		} catch {
+			alert('Failed to save order. Please try again.');
+		} finally {
+			isSaving = false;
+		}
+	}
+
 	function formatDate(date: Date | string) {
 		return new Date(date).toLocaleDateString('en-US', {
 			month: 'short',
@@ -52,10 +86,18 @@
 	}
 </script>
 
+{#if isSaving}
+	<div class="alert alert-info mb-4">
+		<span class="loading loading-spinner loading-sm"></span>
+		<span>Saving order...</span>
+	</div>
+{/if}
+
 <div class="overflow-x-auto">
 	<table class="table w-full table-fixed">
 		<thead>
 			<tr>
+				<th class="w-16">Order</th>
 				<th class="w-1/5">Title</th>
 				<th class="w-1/6">Category</th>
 				<th class="w-1/8">Author</th>
@@ -68,8 +110,33 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each posts as post}
+			{#each posts as post, index}
 				<tr>
+					<td class="px-2">
+						<div class="flex flex-col items-center gap-0.5">
+							<button
+								class="btn btn-xs btn-ghost px-1"
+								disabled={index === 0 || isSaving}
+								on:click={() => movePost(index, 'up')}
+								title="Move up"
+							>
+								<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+								</svg>
+							</button>
+							<span class="text-xs font-mono text-gray-400">{index + 1}</span>
+							<button
+								class="btn btn-xs btn-ghost px-1"
+								disabled={index === posts.length - 1 || isSaving}
+								on:click={() => movePost(index, 'down')}
+								title="Move down"
+							>
+								<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+								</svg>
+							</button>
+						</div>
+					</td>
 					<td class="px-2 break-words">
 						<div class="text-sm font-bold">{post.title}</div>
 						{#if post.poll}

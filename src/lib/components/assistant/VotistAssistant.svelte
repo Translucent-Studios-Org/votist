@@ -113,18 +113,18 @@
 {#if !isOpen}
 	<button
 		onclick={toggleChat}
-		class="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#167b9b] shadow-lg transition-transform hover:scale-105 md:bottom-6 md:right-6"
+		class="fixed right-4 bottom-20 z-50 flex h-20 w-20 items-center justify-center rounded-full bg-[#167b9b] shadow-lg transition-transform hover:scale-105 md:right-6 md:bottom-6"
 		aria-label="Open Votist Assistant"
 	>
-		<img src={logoWhite} alt="" class="h-8 w-8" />
+		<img src={logoWhite} alt="" class="h-10 w-10" />
 	</button>
 {/if}
 
 <!-- Chat panel (open state) -->
 {#if isOpen}
 	<div
-		class="fixed bottom-20 right-4 z-50 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:w-[380px] md:bottom-6 md:right-6"
-		style="height: min(500px, calc(100vh - 10rem));"
+		class="fixed right-4 bottom-20 z-50 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:w-[480px] md:right-6 md:bottom-6"
+		style="height: min(800px, calc(100vh - 10rem));"
 	>
 		<!-- Header -->
 		<div class="flex items-center justify-between bg-[#167b9b] px-4 py-3">
@@ -154,7 +154,7 @@
 		<!-- Messages area -->
 		<div bind:this={chatContainer} class="flex-1 space-y-3 overflow-y-auto p-4">
 			<!-- Welcome message -->
-			<div class="whitespace-pre-line rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-700">
+			<div class="rounded-lg bg-gray-100 px-3 py-2 text-sm whitespace-pre-line text-gray-700">
 				{WELCOME_MESSAGE}
 			</div>
 
@@ -166,9 +166,9 @@
 						</div>
 					</div>
 				{:else}
-					<div class="whitespace-pre-wrap rounded-lg bg-gray-100 px-3 py-2 text-sm text-gray-700">
+					<div class="rounded-lg bg-white px-3 py-2 text-sm whitespace-pre-wrap text-gray-700">
 						{message.content}{#if isStreaming && i === messages.length - 1}<span
-								class="ml-0.5 inline-block h-4 w-1 animate-pulse bg-gray-400"
+								class="bg-gray-white ml-0.5 inline-block h-4 w-1 animate-pulse"
 							></span>{/if}
 					</div>
 				{/if}
@@ -194,7 +194,7 @@
 					bind:value={inputText}
 					onkeydown={handleKeydown}
 					placeholder={limitReached ? 'Chat limit reached' : 'Type your question here...'}
-					class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#167b9b] focus:outline-none focus:ring-1 focus:ring-[#167b9b] disabled:bg-gray-50"
+					class="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-[#167b9b] focus:ring-1 focus:ring-[#167b9b] focus:outline-none disabled:bg-gray-50"
 					disabled={isStreaming || limitReached}
 				/>
 				<button

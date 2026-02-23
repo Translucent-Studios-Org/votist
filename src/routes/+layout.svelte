@@ -124,9 +124,7 @@
 							aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
 						>
 							<svg
-								class="h-5 w-5 transition-transform duration-300 {collapsed
-									? 'rotate-180'
-									: ''}"
+								class="h-5 w-5 transition-transform duration-300 {collapsed ? 'rotate-180' : ''}"
 								fill="none"
 								stroke="currentColor"
 								viewBox="0 0 24 24"
@@ -141,11 +139,7 @@
 						</button>
 					</div>
 
-					<div
-						class="border-b border-blue-200 p-4 {collapsed
-							? 'flex justify-center'
-							: ''}"
-					>
+					<div class="border-b border-blue-200 p-4 {collapsed ? 'flex justify-center' : ''}">
 						<div class="relative">
 							<button
 								class="flex w-full items-center rounded-lg p-2 hover:bg-gray-50 {collapsed
@@ -175,10 +169,10 @@
 								{/if}
 								{#if !collapsed}
 									<div class="flex-1 text-left">
-										<h2 class="text-sm font-bold text-votist-blue">
+										<h2 class="text-votist-blue text-sm font-bold">
 											{data.user?.fullName || 'Anonymous'}
 										</h2>
-										<p class="text-xs capitalize text-gray-500">
+										<p class="text-xs text-gray-500 capitalize">
 											{data.user?.role || 'visitor'}
 										</p>
 									</div>
@@ -203,7 +197,7 @@
 							{#if userMenuOpen}
 								<div
 									class="absolute z-50 mt-1 rounded-lg border border-gray-200 bg-white py-1 shadow-lg {collapsed
-										? 'left-full top-0 ml-2 w-48'
+										? 'top-0 left-full ml-2 w-48'
 										: 'left-0 w-full'}"
 								>
 									<a
@@ -236,13 +230,13 @@
 						{#each navItems as item}
 							{#if item.hasSubItems}
 								{#if !collapsed}
-									<div class="mb-1 mt-2">
-										<p class="px-3 py-1 text-xs font-medium tracking-wide uppercase text-gray-400">
+									<div class="mt-2 mb-1">
+										<p class="px-3 py-1 text-xs font-medium tracking-wide text-gray-400 uppercase">
 											{item.name}
 										</p>
 										<a
 											href="/san-rafael"
-											class="flex flex-col rounded-md px-3 py-2 bg-gray-50 hover:bg-gray-100"
+											class="flex flex-col rounded-md bg-gray-50 px-3 py-2 hover:bg-gray-100"
 										>
 											<span class="text-sm font-bold text-[#155E75]">San Rafael, CA</span>
 											<span class="text-xs text-[#167B9B]">Housing and the Future</span>
@@ -271,9 +265,7 @@
 									{#if !collapsed}
 										<span class="flex-1">{item.name}</span>
 										{#if item.notification}
-											<span
-												class="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700"
-											>
+											<span class="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700">
 												{item.notification}
 											</span>
 										{/if}
@@ -296,18 +288,14 @@
 									title={collapsed ? item.name : undefined}
 								>
 									<img
-										src={page.url.pathname === item.path
-											? item.iconFilled
-											: item.iconOutline}
+										src={page.url.pathname === item.path ? item.iconFilled : item.iconOutline}
 										alt={item.name}
 										class="h-5 w-5 flex-shrink-0 {collapsed ? '' : 'mr-3'}"
 									/>
 									{#if !collapsed}
 										<span class="flex-1">{item.name}</span>
 										{#if item.notification}
-											<span
-												class="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700"
-											>
+											<span class="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700">
 												{item.notification}
 											</span>
 										{/if}
@@ -349,31 +337,34 @@
 					{#if item.hasSubItems}
 						<a
 							href="/san-rafael"
-							class="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page.url.pathname === '/san-rafael' || page.url.pathname.startsWith('/san-rafael/')
+							class="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page.url
+								.pathname === '/san-rafael' || page.url.pathname.startsWith('/san-rafael/')
 								? 'text-[#155E75]'
 								: 'text-gray-400'}"
 						>
-							<span class="text-base font-extrabold leading-none text-[#167B9B]">SR</span>
-							<span class="text-[10px] font-medium leading-tight text-[#167B9B]">San Rafael</span>
+							<span class="text-base leading-none font-extrabold text-[#167B9B]">SR</span>
+							<span class="text-[10px] leading-tight font-medium text-[#167B9B]">San Rafael</span>
 						</a>
 					{:else}
 						<a
 							href={item.path}
-							class="relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page.url.pathname === item.path || page.url.pathname.startsWith(item.path + '/')
+							class="relative flex flex-1 flex-col items-center justify-center gap-0.5 py-2 {page
+								.url.pathname === item.path || page.url.pathname.startsWith(item.path + '/')
 								? 'text-[#155E75]'
 								: 'text-gray-400'}"
 						>
 							<img
-								src={page.url.pathname === item.path || page.url.pathname.startsWith(item.path + '/')
+								src={page.url.pathname === item.path ||
+								page.url.pathname.startsWith(item.path + '/')
 									? item.iconFilled
 									: item.iconOutline}
 								alt={item.name}
-								class="h-6 w-6"
+								class="h-8 w-8"
 							/>
 							<span class="text-[10px] leading-tight">{item.name}</span>
 							{#if item.notification}
 								<span
-									class="absolute right-2 top-1 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold text-white"
+									class="absolute top-1 right-2 min-w-[16px] rounded-full bg-red-500 px-1 text-center text-[9px] font-bold text-white"
 								>
 									{item.notification}
 								</span>
@@ -407,9 +398,7 @@
 					</a>
 				</div>
 				<div class="navbar-end">
-					<a href="/san-rafael" class="text-votist-blue mx-5 font-semibold">
-						San Rafael Project
-					</a>
+					<a href="/san-rafael" class="text-votist-blue mx-5 font-semibold"> San Rafael Project </a>
 					<a href="/sign-up" class="btn btn-primary">Register</a>
 					<a href="/sign-in" class="btn btn-ghost">Sign in</a>
 				</div>

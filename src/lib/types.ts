@@ -102,6 +102,7 @@ export interface Post {
 	category: string;
 	tags: string[];
 	likes: number;
+	sortOrder: number;
 	comments: Comment[];
 	votes: Vote[];
 	poll?: Poll;

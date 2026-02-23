@@ -3,14 +3,47 @@
 	import { MoreHorizontal, ArrowUp, MessageCircle, Share, BarChart3, Check } from 'lucide-svelte';
 
 	export let post: PostData;
-	export const onLike: () => void = () => {};
 	export let onDiscussionClick: () => void;
 	export let isAuthenticated: boolean;
-	export const user: any = null;
+	export let user: any = null;
 	export let quizGateBlocked: boolean = false;
 	export let quizGateMessage: string = '';
 	export let readOnly: boolean = false;
 	export let hideAuthor: boolean = false;
+	export let onAuthRequired: (() => void) | undefined = undefined;
+
+	let isLiking = false;
+
+	async function handleLikeClick() {
+		if (!isAuthenticated || isLiking) return;
+		isLiking = true;
+
+		// Optimistic update
+		const prevLiked = post.isLiked;
+		const prevLikes = post.likes;
+		post.isLiked = !post.isLiked;
+		post.likes = post.isLiked ? post.likes + 1 : post.likes - 1;
+
+		try {
+			const response = await fetch(`/api/posts/${post.id}`, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' }
+			});
+			const data = await response.json();
+			if (response.ok) {
+				post.isLiked = data.isLiked;
+				post.likes = data.likes;
+			} else {
+				post.isLiked = prevLiked;
+				post.likes = prevLikes;
+			}
+		} catch {
+			post.isLiked = prevLiked;
+			post.likes = prevLikes;
+		} finally {
+			isLiking = false;
+		}
+	}
 
 	let revertVote: {
 		prevUserVote: string | undefined;
@@ -106,14 +139,10 @@
 				if (data.poll && post.poll) {
 					// Update vote counts in-place to preserve option order
 					if (data.poll.options) {
-						const serverOptionsMap = new Map(
-							data.poll.options.map((o: any) => [o.id, o])
-						);
+						const serverOptionsMap = new Map(data.poll.options.map((o: any) => [o.id, o]));
 						post.poll.options = post.poll.options.map((existing) => {
 							const server = serverOptionsMap.get(existing.id);
-							return server
-								? { ...existing, votes: server.votes ?? 0 }
-								: existing;
+							return server ? { ...existing, votes: server.votes ?? 0 } : existing;
 						});
 					}
 					post.poll.question = data.poll.question || post.poll.question;
@@ -227,7 +256,7 @@
 					{/if}
 				</div>
 
-				<h3 class="mb-4 font-medium">{post.poll.question}</h3>
+				<h3 class="mb-4 text-xl font-medium">{post.poll.question}</h3>
 
 				<div class="space-y-3">
 					{#if quizGateBlocked && !readOnly}
@@ -268,16 +297,24 @@
 						<div class="space-y-2">
 							<button
 								type="button"
-								on:click={() => handleVoteClick(option.id)}
+								on:click={() => {
+									if (!isAuthenticated && onAuthRequired) {
+										onAuthRequired();
+										return;
+									}
+									handleVoteClick(option.id);
+								}}
 								class="h-auto w-full justify-start overflow-hidden rounded-md border p-0 transition-all duration-200 {isPollEnded ||
 								readOnly
 									? 'cursor-default'
 									: canVote
 										? 'cursor-pointer hover:bg-gray-50'
-										: 'cursor-not-allowed opacity-50'} {isSelected
+										: !isAuthenticated && onAuthRequired
+											? 'cursor-pointer hover:bg-gray-50'
+											: 'cursor-not-allowed opacity-50'} {isSelected
 									? 'border-blue-500 bg-blue-50'
 									: 'border-gray-200'} {isVoting ? 'opacity-75' : ''}"
-								disabled={!canVote || !!isPollEnded}
+								disabled={(!canVote && !(!isAuthenticated && onAuthRequired)) || !!isPollEnded}
 							>
 								<div class="relative w-full p-3">
 									{#if hasVoted}
@@ -289,7 +326,7 @@
 										></div>
 									{/if}
 									<div class="relative flex items-center justify-between">
-										<span class="text-left">{option.text}</span>
+										<span class="text-left text-xl">{option.text}</span>
 										{#if hasVoted}
 											<div class="flex items-center gap-2 text-sm">
 												<span>{percentage}%</span>
@@ -344,11 +381,11 @@
 			<div class="flex items-center gap-6">
 				<button
 					type="button"
-					on:click={onLike}
+					on:click={handleLikeClick}
 					class="flex items-center gap-2 rounded px-2 py-1 hover:bg-gray-100 {post.isLiked || false
 						? 'text-orange-500'
 						: 'text-gray-500'} {!isAuthenticated ? 'cursor-not-allowed opacity-50' : ''}"
-					disabled={!isAuthenticated}
+					disabled={!isAuthenticated || isLiking}
 				>
 					<ArrowUp class="h-4 w-4 {post.isLiked || false ? 'fill-current' : ''}" />
 					<span>{post.likes}</span>
@@ -409,7 +446,7 @@
 			tabindex="-1"
 		>
 			<div class="mb-4">
-				<h3 class="mb-2 text-xl font-bold text-votist-blue">Knowledge Check Required to Vote</h3>
+				<h3 class="text-votist-blue mb-2 text-xl font-bold">Knowledge Check Required to Vote</h3>
 				<p class="text-gray-600">
 					{quizRequirementMessage}
 				</p>

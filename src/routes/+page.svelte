@@ -1,26 +1,28 @@
 <script lang="ts">
 	import Post from '$lib/components/vote/Post.svelte';
-	import knowledgeIcon from '$lib/assets/icons/knowledge.png';
 	import voteIcon from '$lib/assets/icons/vote-outline.png';
 	import discussIcon from '$lib/assets/icons/discuss-outline.png';
+	import research from '$lib/assets/icons/research-outline.png';
 
 	export let data: any;
+
+	let showAuthModal = false;
 </script>
 
 <div class="min-h-screen bg-white">
 	<!-- Hero Section -->
-	<section class="mx-auto max-w-4xl px-4 pt-10 pb-8 text-center md:pt-16 md:pb-10">
-		<h1 class="mb-3 text-4xl leading-tight font-extrabold text-votist-blue md:text-6xl">
+	<section class="mx-auto max-w-4xl px-4 pt-10 pb-8 text-center">
+		<h1 class="text-votist-blue mb-3 text-4xl leading-tight font-extrabold md:text-6xl">
 			A new <span class="text-votist-gold">civic forum</span><br />
 			for a troubled internet
 		</h1>
-		<p class="mx-auto max-w-xl text-lg text-gray-600 md:text-xl">
+		<p class="text-votist-blue mx-auto max-w-xl text-xl md:text-xl">
 			Real people. Shared context. Structured discussion.
 		</p>
 	</section>
 
 	<!-- CTA Banner -->
-	<section class="bg-votist-blue-dark mx-4 mb-10 rounded-xl p-6 md:mx-auto md:max-w-4xl md:p-8">
+	<section class="bg-votist-blue-dark mx-4 mb-10 max-w-4xl rounded-xl p-6 md:mx-auto">
 		<div class="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
 			<div>
 				<p class="mb-1 text-sm text-white/80 md:text-base">
@@ -41,7 +43,7 @@
 	</section>
 
 	<!-- Vote Section -->
-	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
+	<section class="mx-auto mb-10 max-w-4xl md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Vote</h2>
@@ -60,6 +62,9 @@
 							onDiscussionClick={() => {
 								window.location.href = '/vote';
 							}}
+							onAuthRequired={() => {
+								showAuthModal = true;
+							}}
 						/>
 					</div>
 				{:else}
@@ -72,7 +77,7 @@
 	</section>
 
 	<!-- Discuss Section -->
-	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
+	<section class="mx-auto mb-10 max-w-4xl md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Discuss</h2>
@@ -148,21 +153,21 @@
 		<h2 class="text-votist-blue mb-6 text-3xl font-bold md:text-4xl">How Votist works</h2>
 		<div class="grid gap-8 md:grid-cols-3">
 			<div class="flex items-start gap-4">
-				<img src={knowledgeIcon} alt="Background information" class="mt-1 h-8 w-8 flex-shrink-0" />
+				<img src={research} alt="Background information" class="mt-1 h-8 w-8 flex-shrink-0" />
 				<div>
-					<p class="text-lg font-bold text-gray-900">1. Review background information</p>
+					<p class="text-votist-blue text-lg font-bold">1. Review background information</p>
 				</div>
 			</div>
 			<div class="flex items-start gap-4">
 				<img src={voteIcon} alt="Knowledge check" class="mt-1 h-8 w-8 flex-shrink-0" />
 				<div>
-					<p class="text-lg font-bold text-gray-900">2. Complete the Knowledge Check</p>
+					<p class="text-votist-blue text-lg font-bold">2. Complete the Knowledge Check</p>
 				</div>
 			</div>
 			<div class="flex items-start gap-4">
 				<img src={discussIcon} alt="Vote and discuss" class="mt-1 h-8 w-8 flex-shrink-0" />
 				<div>
-					<p class="text-lg font-bold text-gray-900">3. Vote & Discuss</p>
+					<p class="text-votist-blue text-lg font-bold">3. Vote & Discuss</p>
 				</div>
 			</div>
 		</div>
@@ -177,4 +182,80 @@
 			Start
 		</a>
 	</section>
+	<section
+		class="mx-auto flex
+	 max-w-4xl flex-col justify-center px-4 pb-10 md:mb-14"
+	>
+		<h2 class="text-votist-blue mt-10 mb-6 text-3xl font-bold md:text-4xl">What is Votist?</h2>
+		<p class="w-4/5 text-lg">
+			Votist is an experimental civic participation platform designed to make informed public
+			opinion visible and legible. Participation requires three conditions: shared context, light
+			knowledge-gating, and real-name accountability. Before weighing in on real policy questions,
+			participants review curated materials and complete a brief knowledge check under their own
+			names. The pilot tests whether this modest friction and identity transparency can generate a
+			clearer civic signal than traditional anonymous comment threads or quick polls. Votist
+			operates as an independent initiative and does not replace formal democratic decision-making.
+		</p>
+	</section>
 </div>
+
+<!-- Auth Required Modal -->
+{#if showAuthModal}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+		on:click={() => (showAuthModal = false)}
+		on:keydown={(e) => e.key === 'Escape' && (showAuthModal = false)}
+		role="button"
+		tabindex="-1"
+	>
+		<div
+			class="mx-4 max-w-md rounded-xl bg-white p-6 shadow-xl"
+			on:click={(e) => e.stopPropagation()}
+			on:keydown={(e) => e.stopPropagation()}
+			role="dialog"
+			aria-modal="true"
+			tabindex="-1"
+		>
+			<div class="mb-4 text-center">
+				<div
+					class="bg-votist-blue/10 mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full"
+				>
+					<svg
+						class="text-votist-blue h-7 w-7"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+						/>
+					</svg>
+				</div>
+				<h3 class="text-votist-blue mb-2 text-xl font-bold">Join the Conversation</h3>
+				<p class="text-gray-600">
+					Log in or sign up to vote, discuss, and make your voice heard on civic issues that matter.
+				</p>
+			</div>
+			<div class="flex flex-col gap-3">
+				<a
+					href="/sign-in"
+					class="bg-votist-blue rounded-lg px-4 py-3 text-center font-semibold text-white transition hover:brightness-110"
+					>Log In</a
+				>
+				<a
+					href="/sign-up"
+					class="border-votist-blue text-votist-blue rounded-lg border-2 px-4 py-3 text-center font-semibold transition hover:bg-gray-50"
+					>Sign Up</a
+				>
+				<button
+					type="button"
+					class="mt-1 text-sm text-gray-500 hover:text-gray-700"
+					on:click={() => (showAuthModal = false)}>Maybe later</button
+				>
+			</div>
+		</div>
+	</div>
+{/if}

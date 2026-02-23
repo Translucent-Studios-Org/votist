@@ -127,6 +127,7 @@ export const load: PageServerLoad = async (event) => {
 				id: post.id,
 				title: post.title,
 				content: post.content,
+				imageUrl: post.imageUrl ?? undefined,
 				author: postAuthor,
 				timestamp: post.createdAt.toISOString(),
 				category: post.category,

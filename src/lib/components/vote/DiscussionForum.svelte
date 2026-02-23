@@ -66,14 +66,6 @@
 		})
 	);
 
-	function handlePostLike() {
-		post = {
-			...post,
-			isLiked: !post.isLiked,
-			likes: post.isLiked ? post.likes - 1 : post.likes + 1
-		};
-	}
-
 	function handleDiscussionClick() {
 		isDiscussionOpen = !isDiscussionOpen;
 	}
@@ -153,7 +145,6 @@
 			{user}
 			{quizGateBlocked}
 			{quizGateMessage}
-			onLike={handlePostLike}
 			onDiscussionClick={handleDiscussionClick}
 		/>
 

@@ -61,7 +61,7 @@ export const load: PageServerLoad = async (event) => {
 			},
 			_count: { select: { comments: true } }
 		},
-		orderBy: { createdAt: 'desc' }
+		orderBy: [{ sortOrder: 'asc' }, { createdAt: 'desc' }]
 	});
 
 	if (!post) {
