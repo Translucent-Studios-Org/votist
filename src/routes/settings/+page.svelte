@@ -36,9 +36,17 @@
 			action="?/updateProfile"
 			use:enhance={() => {
 				saving = true;
-				return async ({ update }) => {
-					saving = false;
+				return async ({ update, result }) => {
 					await update();
+					saving = false;
+					if (result.type === 'success') {
+						firstName = data.settings.firstName || '';
+						lastName = data.settings.lastName || '';
+						displayName = data.settings.displayName || '';
+						useDisplayName = data.settings.useDisplayName;
+						avatarUrl = data.settings.avatarUrl || '';
+						isResident = data.settings.isResident;
+					}
 				};
 			}}
 		>
