@@ -11,6 +11,14 @@
 	let content = '';
 	let isFocused = false;
 	let isSubmitting = false;
+	let textareaEl: HTMLTextAreaElement;
+
+	function autoResize() {
+		if (textareaEl) {
+			textareaEl.style.height = 'auto';
+			textareaEl.style.height = textareaEl.scrollHeight + 'px';
+		}
+	}
 
 	async function handleSubmit() {
 		if (!isAuthenticated || !content.trim() || isSubmitting) return;
@@ -39,6 +47,7 @@
 		onAddComment(optimisticComment);
 		content = '';
 		isFocused = false;
+		if (textareaEl) textareaEl.style.height = 'auto';
 		isSubmitting = true;
 
 		try {
@@ -80,10 +89,12 @@
 
 		<div class="flex-1">
 			<textarea
+				bind:this={textareaEl}
 				bind:value={content}
 				on:focus={() => (isFocused = true)}
+				on:input={autoResize}
 				{placeholder}
-				class="min-h-[80px] w-full resize-none border-0 bg-transparent p-0 focus-visible:ring-0"
+				class="scrollbar-hide min-h-[44px] w-full resize-none overflow-y-hidden rounded-md border border-gray-200 bg-gray-50 p-3 focus:border-blue-300 focus:bg-white focus:outline-none focus-visible:ring-0"
 				disabled={!isAuthenticated || isSubmitting}
 			></textarea>
 
@@ -100,6 +111,7 @@
 							on:click={() => {
 								content = '';
 								isFocused = false;
+								if (textareaEl) textareaEl.style.height = 'auto';
 							}}
 							disabled={!isAuthenticated || isSubmitting}
 						>
