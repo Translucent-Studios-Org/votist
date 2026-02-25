@@ -81,6 +81,7 @@
 	let { children, data }: { children: any; data: LayoutData } = $props();
 
 	let userMenuOpen = $state(false);
+	let mobileMenuOpen = $state(false);
 	let collapsed = $state(false);
 
 	async function handleSignOut() {
@@ -96,6 +97,7 @@
 <svelte:window
 	onclick={() => {
 		if (userMenuOpen) userMenuOpen = false;
+		if (mobileMenuOpen) mobileMenuOpen = false;
 	}}
 />
 
@@ -313,21 +315,58 @@
 				<a href="/">
 					<img class="h-7" src={logo} alt="votist logo" />
 				</a>
-				<a href="/profile" class="flex-shrink-0">
-					{#if data.user?.avatarUrl}
-						<img
-							src={data.user.avatarUrl}
-							alt="Profile"
-							class="h-9 w-9 rounded-full object-cover ring-2 ring-[#167B9B]"
-						/>
-					{:else}
+				<div class="relative flex-shrink-0">
+					<button
+						onclick={(e: MouseEvent) => {
+							e.stopPropagation();
+							mobileMenuOpen = !mobileMenuOpen;
+						}}
+						class="flex-shrink-0"
+						aria-label="User menu"
+					>
+						{#if data.user?.avatarUrl}
+							<img
+								src={data.user.avatarUrl}
+								alt="Profile"
+								class="h-9 w-9 rounded-full object-cover ring-2 ring-[#167B9B]"
+							/>
+						{:else}
+							<div
+								class="flex h-9 w-9 items-center justify-center rounded-full bg-[#167B9B] text-sm font-bold text-white"
+							>
+								{(data.user?.fullName || 'A').charAt(0).toUpperCase()}
+							</div>
+						{/if}
+					</button>
+
+					{#if mobileMenuOpen}
 						<div
-							class="flex h-9 w-9 items-center justify-center rounded-full bg-[#167B9B] text-sm font-bold text-white"
+							class="absolute right-0 z-50 mt-2 w-48 rounded-lg border border-gray-200 bg-white py-1 shadow-lg"
 						>
-							{(data.user?.fullName || 'A').charAt(0).toUpperCase()}
+							<a
+								href="/profile"
+								class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+								onclick={() => (mobileMenuOpen = false)}
+							>
+								View Profile
+							</a>
+							<a
+								href="/settings"
+								class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+								onclick={() => (mobileMenuOpen = false)}
+							>
+								Settings
+							</a>
+							<div class="my-1 border-t border-gray-200"></div>
+							<button
+								class="block w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50"
+								onclick={handleSignOut}
+							>
+								Sign Out
+							</button>
 						</div>
 					{/if}
-				</a>
+				</div>
 			</div>
 
 			<nav
@@ -391,16 +430,16 @@
 
 	<SignedOut>
 		<div class="flex min-h-screen flex-col">
-			<div class="navbar bg-base-100">
+			<div class="navbar bg-base-100 px-2 md:px-4">
 				<div class="navbar-start">
 					<a href="/">
-						<img class="m-5 w-32" src={logo} alt="votist logo" />
+						<img class="m-3 w-24 md:m-5 md:w-32" src={logo} alt="votist logo" />
 					</a>
 				</div>
-				<div class="navbar-end">
-					<a href="/san-rafael" class="text-votist-blue mx-5 font-semibold"> San Rafael Project </a>
-					<a href="/sign-up" class="btn btn-primary">Register</a>
-					<a href="/sign-in" class="btn btn-ghost">Sign in</a>
+				<div class="navbar-end gap-1 md:gap-2">
+					<a href="/san-rafael" class="text-votist-blue hidden font-semibold sm:inline-block md:mx-5"> San Rafael Project </a>
+					<a href="/sign-up" class="btn btn-primary btn-sm md:btn-md">Register</a>
+					<a href="/sign-in" class="btn btn-ghost btn-sm md:btn-md">Sign in</a>
 				</div>
 			</div>
 			<div class="flex-1">

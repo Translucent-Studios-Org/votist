@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { X, Send, Check, RotateCcw } from 'lucide-svelte';
+	import { ChevronDown, Send, Check, RotateCcw } from 'lucide-svelte';
 	import logoWhite from '$lib/assets/logo/logo-white.png';
 
 	interface ChatMessage {
@@ -113,29 +113,29 @@
 {#if !isOpen}
 	<button
 		onclick={toggleChat}
-		class="fixed right-4 bottom-20 z-50 flex h-20 w-20 items-center justify-center rounded-full bg-[#167b9b] shadow-lg transition-transform hover:scale-105 md:right-6 md:bottom-6"
+		class="fixed right-3 bottom-[4.5rem] z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#167b9b] shadow-lg transition-transform hover:scale-105 sm:h-16 sm:w-16 md:right-6 md:bottom-6 md:h-20 md:w-20"
 		aria-label="Open Votist Assistant"
 	>
-		<img src={logoWhite} alt="" class="h-10 w-10" />
+		<img src={logoWhite} alt="" class="h-7 w-7 sm:h-8 sm:w-8 md:h-10 md:w-10" />
 	</button>
 {/if}
 
 <!-- Chat panel (open state) -->
 {#if isOpen}
 	<div
-		class="fixed right-4 bottom-20 z-50 flex w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl bg-white shadow-2xl sm:w-[480px] md:right-6 md:bottom-6"
-		style="height: min(800px, calc(100vh - 10rem));"
+		class="chat-panel fixed inset-x-0 bottom-0 z-50 flex w-full flex-col overflow-hidden rounded-none bg-white shadow-2xl sm:inset-x-auto sm:right-4 sm:bottom-20 sm:w-[420px] sm:rounded-2xl md:right-6 md:bottom-6 md:w-[480px]"
+		style="height: min(800px, calc(100vh - 3.5rem));"
 	>
 		<!-- Header -->
 		<div class="flex items-center justify-between bg-[#167b9b] px-4 py-3">
 			<div class="flex items-center gap-2">
 				<Check class="h-5 w-5 text-white" />
-				<span class="font-semibold text-white">Votist Assistant</span>
+				<span class="text-sm font-semibold text-white sm:text-base">Votist Assistant</span>
 			</div>
 			<div class="flex items-center gap-1">
 				<button
 					onclick={resetChat}
-					class="rounded p-1 text-white/80 hover:bg-white/20 hover:text-white"
+					class="rounded p-1.5 text-white/80 hover:bg-white/20 hover:text-white"
 					aria-label="New chat"
 					title="New chat"
 				>
@@ -143,10 +143,11 @@
 				</button>
 				<button
 					onclick={toggleChat}
-					class="rounded p-1 text-white/80 hover:bg-white/20 hover:text-white"
-					aria-label="Close assistant"
+					class="flex items-center gap-1 rounded-md px-2 py-1.5 text-white/80 hover:bg-white/20 hover:text-white"
+					aria-label="Minimize assistant"
+					title="Minimize"
 				>
-					<X class="h-5 w-5" />
+					<ChevronDown class="h-5 w-5" />
 				</button>
 			</div>
 		</div>
@@ -187,7 +188,7 @@
 		</div>
 
 		<!-- Input area -->
-		<div class="border-t border-gray-200 p-3">
+		<div class="border-t border-gray-200 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
 			<div class="flex items-center gap-2">
 				<input
 					type="text"

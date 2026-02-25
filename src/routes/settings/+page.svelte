@@ -28,7 +28,7 @@
 		</div>
 	{/if}
 
-	<div class="rounded-xl border border-gray-200 bg-white p-4 shadow-lg md:p-8">
+	<div class="rounded-xl border border-gray-200 bg-white p-4 shadow-lg sm:p-6 md:p-8">
 		<h2 class="mb-4 text-base font-bold text-votist-blue md:mb-6 md:text-lg">Profile Information</h2>
 
 		<form
@@ -177,10 +177,10 @@
 				</div>
 
 				<!-- Submit -->
-				<div class="flex justify-end">
+				<div class="flex justify-end pt-2">
 					<button
 						type="submit"
-						class="btn bg-[#167B9B] text-white hover:bg-[#155E75]"
+						class="btn w-full bg-[#167B9B] text-white hover:bg-[#155E75] sm:w-auto"
 						disabled={saving}
 					>
 						{#if saving}

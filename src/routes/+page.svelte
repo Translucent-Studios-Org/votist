@@ -16,7 +16,7 @@
 			A new <span class="text-votist-gold">civic forum</span><br />
 			for a troubled internet
 		</h1>
-		<p class="text-votist-blue mx-auto max-w-xl text-xl md:text-xl">
+		<p class="text-votist-blue mx-auto max-w-xl text-2xl md:text-4xl">
 			Real people. Shared context. Structured discussion.
 		</p>
 	</section>
@@ -25,7 +25,7 @@
 	<section class="bg-votist-blue-dark mx-4 mb-10 max-w-4xl rounded-xl p-6 md:mx-auto">
 		<div class="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
 			<div>
-				<p class="mb-1 text-sm text-white/80 md:text-base">
+				<p class="mb-1 text-3xl text-white/80 md:text-base">
 					We're launching Votist locally
 					<span class="text-votist-gold font-semibold">with one real question:</span>
 				</p>
@@ -43,7 +43,7 @@
 	</section>
 
 	<!-- Vote Section -->
-	<section class="mx-auto mb-10 max-w-4xl md:mb-14">
+	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Vote</h2>
@@ -77,7 +77,7 @@
 	</section>
 
 	<!-- Discuss Section -->
-	<section class="mx-auto mb-10 max-w-4xl md:mb-14">
+	<section class="mx-auto mb-10 max-w-4xl px-4 md:mb-14">
 		<div class="grid items-start gap-8 md:grid-cols-2 md:gap-12">
 			<div>
 				<h2 class="text-votist-blue mb-3 text-3xl font-bold md:text-4xl">Discuss</h2>
@@ -187,7 +187,7 @@
 	 max-w-4xl flex-col justify-center px-4 pb-10 md:mb-14"
 	>
 		<h2 class="text-votist-blue mt-10 mb-6 text-3xl font-bold md:text-4xl">What is Votist?</h2>
-		<p class="w-4/5 text-lg">
+		<p class="w-full text-lg md:w-4/5">
 			Votist is an experimental civic participation platform designed to make informed public
 			opinion visible and legible. Participation requires three conditions: shared context, light
 			knowledge-gating, and real-name accountability. Before weighing in on real policy questions,
