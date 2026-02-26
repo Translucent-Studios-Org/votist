@@ -120,6 +120,8 @@ model User {
   bannedAt       DateTime?
   banExpiresAt   DateTime?      // null for permanent bans
   bannedById     String?        // admin User.id who issued the ban
+  lastActiveAt   DateTime?
+  adminNotes     String?
   userProgress UserProgress[]
   posts        Post[]
   comments     Comment[]

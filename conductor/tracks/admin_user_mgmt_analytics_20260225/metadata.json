@@ -1,0 +1,9 @@
+{
+  "track_id": "admin_user_mgmt_analytics_20260225",
+  "title": "Admin User Management & Analytics Dashboard",
+  "description": "Comprehensive admin dashboard for browsing, managing, and analyzing users — including per-user activity insights, role management, contacting users, and platform-wide engagement metrics",
+  "status": "planning_complete",
+  "created_at": "2026-02-25T00:00:00.000Z",
+  "phases": 7,
+  "total_tasks": 42
+}

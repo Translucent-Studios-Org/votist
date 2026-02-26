@@ -2,17 +2,29 @@
 	import type { PostData } from '$lib/types';
 	import { MoreHorizontal, ArrowUp, MessageCircle, Share, BarChart3, Check } from 'lucide-svelte';
 
-	export let post: PostData;
-	export let onDiscussionClick: () => void;
-	export let isAuthenticated: boolean;
-	export let user: any = null;
-	export let quizGateBlocked: boolean = false;
-	export let quizGateMessage: string = '';
-	export let readOnly: boolean = false;
-	export let hideAuthor: boolean = false;
-	export let onAuthRequired: (() => void) | undefined = undefined;
+	let {
+		post,
+		onDiscussionClick,
+		isAuthenticated,
+		user = null,
+		quizGateBlocked = false,
+		quizGateMessage = '',
+		readOnly = false,
+		hideAuthor = false,
+		onAuthRequired = undefined
+	}: {
+		post: PostData;
+		onDiscussionClick: () => void;
+		isAuthenticated: boolean;
+		user?: any;
+		quizGateBlocked?: boolean;
+		quizGateMessage?: string;
+		readOnly?: boolean;
+		hideAuthor?: boolean;
+		onAuthRequired?: (() => void) | undefined;
+	} = $props();
 
-	let isLiking = false;
+	let isLiking = $state(false);
 
 	async function handleLikeClick() {
 		if (!isAuthenticated || isLiking) return;
@@ -49,13 +61,13 @@
 		prevUserVote: string | undefined;
 		prevTotalVotes: number;
 		prevOptions: any[];
-	} | null = null;
+	} | null = $state(null);
 
-	let isVoting: boolean = false;
-	let showQuizRequirementModal: boolean = false;
-	let quizRequirementMessage: string = '';
-	let requiredDifficultyLevel: string = '';
-	let showShareCopied: boolean = false;
+	let isVoting = $state(false);
+	let showQuizRequirementModal = $state(false);
+	let quizRequirementMessage = $state('');
+	let requiredDifficultyLevel = $state('');
+	let showShareCopied = $state(false);
 
 	function formatLocaleTime(ts: string) {
 		const date = new Date(ts);
@@ -281,7 +293,7 @@
 							<button
 								type="button"
 								class="mt-3 rounded-lg bg-[#167b9b] px-4 py-2 text-sm font-medium text-white hover:bg-[#125a74]"
-								on:click={redirectToQuizzes}
+								onclick={redirectToQuizzes}
 							>
 								Complete Knowledge Check
 							</button>
@@ -297,7 +309,7 @@
 						<div class="space-y-2">
 							<button
 								type="button"
-								on:click={() => {
+								onclick={() => {
 									if (!isAuthenticated && onAuthRequired) {
 										onAuthRequired();
 										return;
@@ -381,7 +393,7 @@
 			<div class="flex items-center gap-6">
 				<button
 					type="button"
-					on:click={handleLikeClick}
+					onclick={handleLikeClick}
 					class="flex items-center gap-2 rounded px-2 py-1 hover:bg-gray-100 {post.isLiked || false
 						? 'text-orange-500'
 						: 'text-gray-500'} {!isAuthenticated ? 'cursor-not-allowed opacity-50' : ''}"
@@ -393,7 +405,7 @@
 
 				<button
 					class="flex items-center gap-2 rounded px-2 py-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-					on:click={onDiscussionClick}
+					onclick={onDiscussionClick}
 				>
 					<MessageCircle class="h-4 w-4" />
 					<span>{post.comments}</span>
@@ -403,7 +415,7 @@
 			<div class="flex items-center gap-2">
 				<button
 					class="relative flex items-center gap-1.5 rounded px-2 py-1 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-					on:click={handleShareClick}
+					onclick={handleShareClick}
 				>
 					{#if showShareCopied}
 						<Check class="h-4 w-4 text-green-500" />
@@ -432,15 +444,15 @@
 {#if showQuizRequirementModal}
 	<div
 		class="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black"
-		on:click={() => (showQuizRequirementModal = false)}
-		on:keydown={(e) => e.key === 'Escape' && (showQuizRequirementModal = false)}
+		onclick={() => (showQuizRequirementModal = false)}
+		onkeydown={(e) => e.key === 'Escape' && (showQuizRequirementModal = false)}
 		role="button"
 		tabindex="-1"
 	>
 		<div
 			class="mx-4 max-w-md rounded-lg bg-white p-6 shadow-xl"
-			on:click={(e) => e.stopPropagation()}
-			on:keydown={(e) => e.stopPropagation()}
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => e.stopPropagation()}
 			role="dialog"
 			aria-modal="true"
 			tabindex="-1"
@@ -463,14 +475,14 @@
 				<button
 					type="button"
 					class="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 font-medium text-gray-700 hover:bg-gray-50"
-					on:click={() => (showQuizRequirementModal = false)}
+					onclick={() => (showQuizRequirementModal = false)}
 				>
 					Cancel
 				</button>
 				<button
 					type="button"
 					class="flex-1 rounded-lg bg-[#167b9b] px-4 py-2 font-medium text-white hover:bg-[#125a74]"
-					on:click={redirectToQuizzes}
+					onclick={redirectToQuizzes}
 				>
 					Take Knowledge Check
 				</button>

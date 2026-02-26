@@ -5,7 +5,7 @@ function getResend() {
 	return new Resend(env.RESEND_API_KEY);
 }
 
-const FROM_ADDRESS = 'Votist Moderation <onboarding@resend.dev>';
+const FROM_ADDRESS = 'Votist Moderation <onboarding@votist.com>';
 
 export async function sendWarningEmail(params: {
 	to: string;
@@ -14,6 +14,7 @@ export async function sendWarningEmail(params: {
 	adminName: string;
 }): Promise<{ success: boolean; error?: string }> {
 	try {
+		console.log(FROM_ADDRESS);
 		const { error } = await getResend().emails.send({
 			from: FROM_ADDRESS,
 			to: params.to,

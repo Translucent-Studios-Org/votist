@@ -46,3 +46,12 @@
 - **Created:** 2026-02-09
 - **Phases:** 6 (36 tasks) — Phase 5 expanded with PoC metrics (knowledge gate acceptance, civic signal quality, video analytics, resident segmentation)
 - **Priority:** P1 (High)
+
+### admin_user_mgmt_analytics_20260225
+- **Title:** Admin User Management & Analytics Dashboard
+- **Status:** Planning Complete
+- **Spec:** `conductor/tracks/admin_user_mgmt_analytics_20260225/spec.md`
+- **Plan:** `conductor/tracks/admin_user_mgmt_analytics_20260225/plan.md`
+- **Created:** 2026-02-25
+- **Phases:** 7 (42 tasks) — User directory, user detail with activity drill-down, role/resident management, email contact, platform overview dashboard with charts, engagement insights, CSV export
+- **Priority:** P1 (High)

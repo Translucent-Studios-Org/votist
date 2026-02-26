@@ -10,6 +10,12 @@
 		<div class="flex-none">
 			<ul class="menu menu-horizontal px-1">
 				<li>
+					<a href="/admin/dashboard" class:active={$page.url.pathname.includes('/dashboard')}>Dashboard</a>
+				</li>
+				<li>
+					<a href="/admin/users" class:active={$page.url.pathname.includes('/users')}>Users</a>
+				</li>
+				<li>
 					<a href="/admin/quizzes" class:active={$page.url.pathname.includes('/quizzes')}>Quizzes</a
 					>
 				</li>

@@ -4,9 +4,9 @@
 	import discussIcon from '$lib/assets/icons/discuss-outline.png';
 	import research from '$lib/assets/icons/research-outline.png';
 
-	export let data: any;
+	let { data }: { data: any } = $props();
 
-	let showAuthModal = false;
+	let showAuthModal = $state(false);
 </script>
 
 <div class="min-h-screen bg-white">
@@ -203,15 +203,15 @@
 {#if showAuthModal}
 	<div
 		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-		on:click={() => (showAuthModal = false)}
-		on:keydown={(e) => e.key === 'Escape' && (showAuthModal = false)}
+		onclick={() => (showAuthModal = false)}
+		onkeydown={(e) => e.key === 'Escape' && (showAuthModal = false)}
 		role="button"
 		tabindex="-1"
 	>
 		<div
 			class="mx-4 max-w-md rounded-xl bg-white p-6 shadow-xl"
-			on:click={(e) => e.stopPropagation()}
-			on:keydown={(e) => e.stopPropagation()}
+			onclick={(e) => e.stopPropagation()}
+			onkeydown={(e) => e.stopPropagation()}
 			role="dialog"
 			aria-modal="true"
 			tabindex="-1"
@@ -253,7 +253,7 @@
 				<button
 					type="button"
 					class="mt-1 text-sm text-gray-500 hover:text-gray-700"
-					on:click={() => (showAuthModal = false)}>Maybe later</button
+					onclick={() => (showAuthModal = false)}>Maybe later</button
 				>
 			</div>
 		</div>

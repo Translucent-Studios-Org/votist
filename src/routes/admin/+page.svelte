@@ -1,7 +1,12 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		goto('/admin/dashboard', { replaceState: true });
+	});
 </script>
 
-<div class="container mx-auto p-4">
-	<slot />
+<div class="flex justify-center py-16">
+	<span class="loading loading-spinner loading-lg"></span>
 </div>
