@@ -2,9 +2,12 @@
 	<div class="mx-auto max-w-4xl rounded-2xl bg-white px-8 py-10 sm:px-12 sm:py-14">
 		<nav class="mb-8 flex flex-wrap gap-x-10 gap-y-3">
 			<a href="/about" class="text-base text-gray-900 hover:underline">About Votist</a>
+			<a href="/faq" class="text-base text-gray-900 hover:underline">FAQ</a>
+			<a href="/governance" class="text-base text-gray-900 hover:underline">Governance & Structure</a>
 			<a href="/tos" class="text-base text-gray-900 hover:underline">Terms of Service</a>
-			<a href="/cookies" class="text-base text-gray-900 hover:underline">Cookie Policy</a>
 			<a href="/privacy" class="text-base text-gray-900 hover:underline">Privacy Policy</a>
+			<a href="/cookie-policy" class="text-base text-gray-900 hover:underline">Cookie Policy</a>
+			<a href="/moderation" class="text-base text-gray-900 hover:underline">Moderation Policy</a>
 			<a href="/contact" class="text-base text-gray-900 hover:underline">Contact</a>
 		</nav>
 
