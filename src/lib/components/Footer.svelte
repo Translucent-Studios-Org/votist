@@ -17,6 +17,7 @@
 				government agency.
 			</p>
 			<p>&copy; 2026 Translucent Studios LLC. All rights reserved.</p>
+			<p class="text-sm text-gray-400">Built with care in California.</p>
 		</div>
 	</div>
 </footer>
