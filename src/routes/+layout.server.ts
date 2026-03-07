@@ -9,23 +9,57 @@ export const load = (async ({ locals }) => {
 
 	let userData = null;
 	if (userId) {
-		const [clerkUser, dbUser] = await Promise.all([
+		const dbSelect = {
+			id: true,
+			email: true,
+			firstName: true,
+			lastName: true,
+			avatarUrl: true,
+			role: true,
+			isAdmin: true,
+			isResident: true,
+			createdAt: true
+		};
+
+		const [clerkUser, dbUserInitial] = await Promise.all([
 			clerkClient.users.getUser(userId),
-			prisma.user.findUnique({
-				where: { clerkId: userId },
-				select: {
-					id: true,
-					email: true,
-					firstName: true,
-					lastName: true,
-					avatarUrl: true,
-					role: true,
-					isAdmin: true,
-					isResident: true,
-					createdAt: true
-				}
-			})
+			prisma.user.findUnique({ where: { clerkId: userId }, select: dbSelect })
 		]);
+
+		let dbUser = dbUserInitial;
+
+		if (!dbUser) {
+			const email = clerkUser.emailAddresses[0]?.emailAddress;
+			const userByEmail = email
+				? await prisma.user.findUnique({ where: { email } })
+				: null;
+
+			if (userByEmail) {
+				await prisma.user.update({
+					where: { id: userByEmail.id },
+					data: {
+						clerkId: userId,
+						firstName: clerkUser.firstName ?? userByEmail.firstName,
+						lastName: clerkUser.lastName ?? userByEmail.lastName,
+						avatarUrl: clerkUser.imageUrl ?? userByEmail.avatarUrl,
+						isAdmin: clerkUser.publicMetadata?.role === 'admin'
+					}
+				});
+				dbUser = await prisma.user.findUnique({ where: { clerkId: userId }, select: dbSelect });
+			} else {
+				await prisma.user.create({
+					data: {
+						clerkId: userId,
+						email,
+						firstName: clerkUser.firstName,
+						lastName: clerkUser.lastName,
+						avatarUrl: clerkUser.imageUrl,
+						isAdmin: clerkUser.publicMetadata?.role === 'admin'
+					}
+				});
+				dbUser = await prisma.user.findUnique({ where: { clerkId: userId }, select: dbSelect });
+			}
+		}
 
 		userData = {
 			fullName:
